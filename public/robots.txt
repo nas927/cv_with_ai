@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://makefolioai.vercel.app/sitemap.xml

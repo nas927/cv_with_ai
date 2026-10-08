@@ -1,0 +1,10 @@
+export { Header } from './Header';
+export { Footer } from './Footer';
+export { PreviewPanel } from './PreviewPanel';
+export { Sidebar } from './sidebar/Sidebar';
+export { AiSection } from './sidebar/AiSection';
+export { PhotoSection } from './sidebar/PhotoSection';
+export { ProfileSection } from './sidebar/ProfileSection';
+export { LanguagesSection } from './sidebar/LanguagesSection';
+export { SkillsSection } from './sidebar/SkillsSection';
+export { DesignSection } from './sidebar/DesignSection';
