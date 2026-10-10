@@ -46,7 +46,8 @@ export function useAiGeneration() {
         setOptimizationMessage('L\'IA analyse votre CV...');
 
         try {
-            const job = cleanJobDescription(prompt);
+            const job = cleanJobDescription("job offer : " + prompt);
+            let schema = '';
             if (!job) {
                 setOptimizationMessage('Ajoutez une description de poste avec du texte et des chiffres');
                 setIsGenerating(false);
@@ -63,56 +64,190 @@ export function useAiGeneration() {
                 competences: cvData.competences.length,
             };
 
-            const outputLanguage = translateEducation ? 'anglais' : 'français';
-            const educationRule = translateEducation
-                ? 'Le CV doit être en anglais'
-                : 'Le CV doit être en français';
+            const outputLanguage = translateEducation ? 'English' : 'French';
 
-                const schema = `Tu dois retourner uniquement un objet JSON valide, sans aucun texte avant ou après, sans balises markdown ni backticks.
-                L'objet doit contenir exactement ces six clés, dans cet ordre : "profile", "experiences", "competences", "hardSkills", "softSkills", "education".
-                N'ajoute, ne renomme et ne supprime aucune clé.
-                
-                Format attendu pour chaque clé :
-                - profile : objet avec exactement 3 clés, toutes des chaînes de caractères :
-                  - "job" : le nom de l'entreprise, extrait de l'offre d'emploi ci-dessous.
-                  - "title" : l'intitulé du poste visé.
-                  - "about" : un résumé de profil (2-3 phrases) ${TJM !== '' && 'Rajoute le tjm qui est de : ' + TJM}.
-                - experiences : liste d'objets {"company": string, "role": string, "date": string, "location": string, "text": string} Ne change jamais company, pour le role format obligatoire : "<métier original> / <métier adapté>" il faut que le métier adapté fit avec l'offre et varie, Le champ text doit être entièrement réécrit pour mettre en valeur l'expérience en fonction de l'offre ciblée. Il doit être détaillé, professionnel et expliquer concrètement les missions réalisées, les responsabilités, les technologies utilisées, les réalisations et les résultats obtenus. Il ne doit pas simplement lister des mots-clés, mais produire une description riche et crédible qui maximise la pertinence de l'expérience pour le poste visé.
-                - competences : liste d'objets {"name": string, "text": string} Change le nom et la description.
-                - hardSkills : liste de chaînes de caractères. Chaque chaîne doit contenir le nom de la compétence suivi d'une courte description, au format "Nom — description".
-                - softSkills : liste de chaînes de caractères (juste le nom de la qualité, sans description).
-                - education : liste d'objets {"title": string, "date": string, "location": string, "text": string} ne supprime rien et modifie juste le text rien d'autre tout en préservant l'intérêt de l'école. Nu supprime aucun objet modifie juste.
-                
-                Ne supprime rien de ce qui était déjà là tu peux juste modifier et ajouter des informations
-                `;
-                
-                const quantityRules = `RÈGLE ABSOLUE SUR LES QUANTITÉS : pour chaque liste (experiences, competences, hardSkills, softSkills, education), conserve exactement le même nombre d'éléments et le même ordre que dans le CV fourni. Ne fusionne, ne supprime et n'ajoute aucun élément.
-                Quantités attendues : ${JSON.stringify(counts)}.
-                
-                Champs que tu es autorisé à modifier : profile.job, profile.title, profile.about, experiences, competences, hardSkills, softSkills, education.
-                Les autres champs du profil (email, téléphone, etc.) ne font pas partie du JSON attendu : ne les inclus pas dans ta réponse.
-                
-                Pour hardSkills : N'omets jamais la description.
-                Pour competences et softSkills : tu peux reformuler les intitulés pour les optimiser (mots-clés ATS).
-                ${educationRule}`;
-                
-                const atsRules = `Rédige l'ensemble du contenu en ${outputLanguage}. Optimise pour les ATS (Applicant Tracking Systems) : reprends les mots-clés pertinents de l'offre d'emploi, utilise un vocabulaire professionnel et des verbes d'action.`;
-                
-                const userPrompt = `OFFRE D'EMPLOI :
-                ${job}
-                
-                CV À MODIFIER (JSON) :
-                ${JSON.stringify(currentCv)}
-                
-                ${schema}
-                
-                ${quantityRules}
-                
-                ${atsRules}
-                
-                Instructions supplémentaires à prendre en compte au dessus de tout : ${addedPrompt || 'Aucune'}
-                
-                Réponds uniquement avec l'objet JSON final, rien d'autre.`;
+            const educationRule = translateEducation
+                ? 'The entire CV must be written in English.'
+                : 'The entire CV must be written in French.';
+            
+            schema = `
+            Return ONLY a valid JSON object.
+            Do not include any text before or after it.
+            Do not use Markdown, code fences, or backticks.
+            
+            The JSON object MUST contain exactly these six keys, in this exact order:
+            
+            "profile",
+            "experiences",
+            "competences",
+            "hardSkills",
+            "softSkills",
+            "education"
+            
+            Do not add, remove, rename, or reorder any key.
+            
+            Expected structure:
+            
+            - profile:
+            {
+                "job": string,
+                "title": string,
+                "about": string
+            }
+            
+            Rules:
+            - "job": company name extracted from the job offer.
+            - "title": target job title.
+            - "about": professional profile summary (2–3 sentences). ${
+                TJM !== '' ? `Include the daily rate (TJM): ${TJM}.` : ''
+            }
+            
+            - experiences:
+            Array of objects:
+            {
+                "company": string,
+                "role": string,
+                "date": string,
+                "location": string,
+                "text": string
+            }
+            
+            Rules:
+            - Never modify "company".
+            - "role" MUST follow this exact format:
+              "<original role> / <adapted role>"
+            - The adapted role must fit the job offer and may differ for each experience.
+            - Completely rewrite "text" to maximize relevance for the target position.
+            - Produce a detailed, credible, and professional description.
+            - Explain actual responsibilities, technologies, achievements, impact, and results.
+            - Do NOT simply list keywords.
+            
+            - competences:
+            Array of objects:
+            {
+                "name": string,
+                "text": string
+            }
+            
+            Rules:
+            - Rewrite both "name" and "text".
+            - Optimize them for ATS keywords while remaining natural.
+            
+            - hardSkills:
+            Array of strings.
+            
+            Each string MUST follow this format:
+            
+            "Skill Category — tool1, tool2, tool3..."
+            
+            Each entry must contain:
+            - a skill category
+            - a short list of relevant tools or technologies.
+            
+            - softSkills:
+            Array of strings.
+            
+            Rules:
+            - Only the skill name.
+            - No description.
+            
+            - education:
+            Array of objects:
+            {
+                "title": string,
+                "date": string,
+                "location": string,
+                "text": string
+            }
+            
+            Rules:
+            - Never delete any education entry.
+            - Never modify title, date, or location.
+            - Only rewrite "text".
+            - Preserve and enhance the value of each school or training.
+            
+            General rule:
+            Never remove existing information.
+            You may enrich, improve, and expand the content while preserving the original meaning.
+            `;
+            
+            const quantityRules = `
+            ABSOLUTE RULE ABOUT ARRAY SIZES:
+            
+            For every array:
+            - experiences
+            - competences
+            - hardSkills
+            - softSkills
+            - education
+            
+            Keep EXACTLY the same number of items.
+            Keep EXACTLY the same order.
+            
+            Never:
+            - merge items
+            - remove items
+            - add items
+            
+            Expected sizes:
+            ${JSON.stringify(counts)}
+            
+            You may only modify:
+            
+            - profile.job
+            - profile.title
+            - profile.about
+            - experiences
+            - competences
+            - hardSkills
+            - softSkills
+            - education
+            
+            Do not include any other profile fields such as email, phone number, address, or similar.
+            
+            Hard skills:
+            Never omit the list.
+            
+            Competences and soft skills:
+            Feel free to rewrite them using ATS-friendly terminology.
+            
+            ${educationRule}
+            `;
+            
+            const atsRules = `
+            Write every field in ${outputLanguage}.
+            
+            Optimize the CV for Applicant Tracking Systems (ATS):
+            
+            - Reuse relevant keywords from the job description.
+            - Use professional vocabulary.
+            - Prefer strong action verbs.
+            - Keep the writing natural and credible.
+            - Prioritize relevance over keyword stuffing.
+            `;
+            
+            const userPrompt = `        
+            ${job}
+            
+            CURRENT CV (JSON)
+            
+            ${JSON.stringify(currentCv)}
+            
+            TASK
+            
+            ${schema}
+            
+            ${quantityRules}
+            
+            ${atsRules}
+            
+            Additional instructions (highest priority):
+            
+            ${addedPrompt || 'None'}
+            
+            Return ONLY the final JSON object.
+            Nothing else.
+            `;
 
             const content = await fetchAI(userPrompt, keyGroq, false);
             if (!content.success) {
