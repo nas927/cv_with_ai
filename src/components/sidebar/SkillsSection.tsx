@@ -12,8 +12,8 @@ interface SkillsSectionProps {
 
 export function SkillsSection({ fold, sharedSkillCount, setSharedSkillCount, setCvData, resizeAllSkills }: SkillsSectionProps) {
     const [showDesignControls, setShowDesignControls] = useState(false);
-    const [competenceCount, setCompetenceCount] = useState(localStorage.getItem('competenceCount') ?? sharedSkillCount)
-    const [hardSkillsCount, setHardSkillsCount] = useState(localStorage.getItem('hardSkillsCount') ?? sharedSkillCount)
+    const [competenceCount, setCompetenceCount] = useState(localStorage.getItem('competenceCount') ?? 9)
+    const [hardSkillsCount, setHardSkillsCount] = useState(localStorage.getItem('hardSkillsCount') ?? 14)
     const [softSkillsCount, setSoftSkillsCount] = useState(localStorage.getItem('softSkillsCount') ?? sharedSkillCount)
 
     useEffect(() => {

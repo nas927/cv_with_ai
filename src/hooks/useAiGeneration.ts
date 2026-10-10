@@ -121,6 +121,7 @@ export function useAiGeneration() {
             - Produce a detailed, credible, and professional description.
             - Explain actual responsibilities, technologies, achievements, impact, and results.
             - Do NOT simply list keywords.
+            - Add list of tool used at the end
             
             - competences:
             Array of objects:

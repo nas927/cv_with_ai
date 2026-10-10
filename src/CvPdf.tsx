@@ -350,6 +350,7 @@ function buildPagePlan(
         while (mainIndex < mainSections.length) {
             const section = mainSections[mainIndex];
             const height = heights[section.title] ?? 0;
+            console.log(mainHeightUsed + height, maxMainHeight)
             if (mainHeightUsed + height > maxMainHeight && page.main.length > 0) break;
             page.main.push(section);
             mainHeightUsed += height;
@@ -508,7 +509,7 @@ export function CvHtml({
         });
 
         const maxAsideHeight = 850;
-        const maxMainHeight = 900;
+        const maxMainHeight = 870;
         
         const plan = buildPagePlan(
             allAsideSections,

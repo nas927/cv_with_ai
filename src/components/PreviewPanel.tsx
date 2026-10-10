@@ -69,87 +69,104 @@ export function PreviewPanel({
         loadPDF(file)
         .then(async (data) => {
             const userPrompt = `
-                Tu es un moteur d'extraction de CV expert. Tu dois analyser le texte d'un CV et le structurer en JSON strict.
+                You are an expert CV extraction engine. You must analyze the text of a CV and structure it into strict JSON.
 
-                SCHÉMA DE SORTIE (respecte exactement ces 9 clés, aucune de plus, aucune de moins) :
-
+                OUTPUT SCHEMA (follow exactly these 9 keys, no more, no less):
+                
                 ${JSON.stringify(emptyCvSchema, null, 2)}
-
+                
                 ────────────────────────────────
-                DÉFINITION DE CHAQUE CLÉ
+                DEFINITION OF EACH KEY
                 ────────────────────────────────
-
-                1. "profile" — objet unique
+                
+                1. "profile" — single object
                 { name, job, title, email, age, website, permis, language, region, city, phone, about, initials }
-                - Toutes les valeurs sont des strings. Si une info est absente dans le CV -> "".
-                - "job" : peut rester "" si non trouvé, ne pas le déduire.
-                - "title" : si absent, déduis un titre professionnel court et cohérent à partir des expériences/formations (ex: "Développeur Web Junior").
-                - "about" : si absent, génère un résumé neutre de 1-2 phrases basé sur le profil (expériences + compétences), sans inventer de faits non présents.
-                - "initials" : déduis-les du nom complet (ex: "Jean Dupont" -> "JD").
-
-                2. "hardSkills" — tableau de strings
-                Compétences techniques concrètes : langages, logiciels, outils, méthodes, certifications techniques.
-                Ex: "Python", "Photoshop", "SEO", "Excel avancé".
-
-                3. "softSkills" — tableau de strings
-                Qualités comportementales et relationnelles.
-                Ex: "communication", "travail d'équipe", "gestion du stress".
-
-                4. "competences" — tableau d'objets { name, text }
-                Savoir-faire métier plus larges, ni un outil précis (hardSkills) ni un trait de caractère (softSkills).
-                - "name" : intitulé court de la compétence (ex: "Gestion de projet").
-                - "text" : brève explication ou contexte d'application (1 phrase).
-                - Si le CV n'en mentionne aucune explicitement, déduis 2 à 4 compétences pertinentes à partir des expériences décrites, sans inventer de faits.
-
-                5. "experiences" — tableau d'objets { title, role, date, location, text }
-                Une entrée par poste occupé.
-                - "title" : nom de l'entreprise.
-                - "role" : intitulé du poste.
-                - "date" : période (ex: "2021 - 2023").
-                - "location" : ville/pays si connu, sinon "".
-                - "text" : description des missions, synthétisée.
-
-                6. "realizations" — tableau d'objets { title, role, date, location, text }
-                Réalisations ou projets marquants distincts d'un poste classique (projet perso, mission ponctuelle, accomplissement chiffré).
-                - Même structure que "experiences".
-                - Si aucune réalisation distincte n'est identifiable dans le CV -> tableau vide [], jamais un objet seul.
-
-                7. "education" — tableau d'objets { title, date, location, text }
-                Une entrée par formation/diplôme.
-                - "title" : nom du diplôme + établissement.
-                - "text" : détails utiles (mention, spécialité), sinon "".
-
-                8. "languages" — tableau d'objets { name, level }
-                - "name" : nom de la langue.
-                - "level" : niveau tel qu'indiqué (ex: "Courant", "B2", "Natif"). Si non précisé -> "".
-
-                9. "interests" — tableau d'objets { title, text }
-                Centres d'intérêt personnels (hobbies), jamais professionnels.
-                - "text" : courte précision si disponible, sinon "".
-
+                
+                - All values must be strings. If information is missing from the CV -> "".
+                - "job": may remain "" if not found, do not infer it.
+                - "title": if missing, infer a short and coherent professional title based on experiences/education (example: "Junior Web Developer").
+                - "about": if missing, generate a neutral 1-2 sentence summary based on the profile (experiences + skills), without inventing facts not present in the CV.
+                - "initials": infer them from the full name (example: "Jean Dupont" -> "JD").
+                
+                2. "hardSkills" — array of strings
+                
+                Concrete technical skills: programming languages, software, tools, methods, technical certifications.
+                Examples: "Python", "Photoshop", "SEO", "Advanced Excel".
+                
+                3. "softSkills" — array of strings
+                
+                Behavioral and interpersonal qualities.
+                Examples: "communication", "teamwork", "stress management".
+                
+                4. "competences" — array of objects { name, text }
+                
+                Broader professional know-how, neither a specific tool (hardSkills) nor a personality trait (softSkills).
+                
+                - "name": short skill title (example: "Project Management").
+                - "text": brief explanation or usage context (1 sentence).
+                - If the CV does not explicitly mention any, infer 2 to 4 relevant competencies from the described experiences, without inventing facts.
+                
+                5. "experiences" — array of objects { title, role, date, location, text }
+                
+                One entry per position held.
+                
+                - "title": company name.
+                - "role": job title.
+                - "date": period (example: "2021 - 2023").
+                - "location": city/country if known, otherwise "".
+                - "text": summarized description of responsibilities and tasks.
+                
+                6. "realizations" — array of objects { title, role, date, location, text }
+                
+                Notable achievements or projects distinct from a standard job position (personal project, one-time mission, measurable accomplishment).
+                
+                - Same structure as "experiences".
+                - If no distinct achievement can be identified in the CV -> empty array [], never a single object.
+                
+                7. "education" — array of objects { title, date, location, text }
+                
+                One entry per education/training/diploma.
+                
+                - "title": diploma name + institution.
+                - "text": useful details (specialization, honors, etc.), otherwise "".
+                
+                8. "languages" — array of objects { name, level }
+                
+                - "name": language name.
+                - "level": level as stated in the CV (example: "Fluent", "B2", "Native"). If not specified -> "".
+                
+                9. "interests" — array of objects { title, text }
+                
+                Personal interests (hobbies), never professional.
+                
+                - "text": short clarification if available, otherwise "".
+                
                 ────────────────────────────────
-                RÈGLES DE CLASSEMENT EN CAS D'AMBIGUÏTÉ
+                CLASSIFICATION RULES IN CASE OF AMBIGUITY
                 ────────────────────────────────
-                - Outil/logiciel/langage précis -> hardSkills.
-                - Trait de personnalité -> softSkills.
-                - Savoir-faire métier plus large sans être un outil précis -> competences.
-                - Poste avec dates/entreprise -> experiences.
-                - Accomplissement ponctuel sans structure de poste classique -> realization.
-                - Ne jamais dupliquer la même information dans deux catégories différentes.
-                - Ne jamais inventer d'informations factuelles (dates, entreprises, diplômes) absentes du CV. Seuls "title", "about" et "competences" peuvent être partiellement déduits/synthétisés si absents.
-
+                
+                - Specific tool/software/programming language -> hardSkills.
+                - Personality trait -> softSkills.
+                - Broader professional know-how without being a specific tool -> competences.
+                - Position with dates/company -> experiences.
+                - One-time accomplishment without a standard job structure -> realization.
+                - Never duplicate the same information in two different categories.
+                - Never invent factual information (dates, companies, diplomas) missing from the CV. Only "title", "about" and "competences" may be partially inferred/synthesized when missing.
+                
                 ────────────────────────────────
-                RÈGLES DE FORMAT (strict)
+                STRICT FORMAT RULES
                 ────────────────────────────────
-                - Retourne uniquement du JSON valide, rien d'autre.
-                - Aucun texte avant ou après, aucun markdown, aucun bloc de code.
-                - Respecte exactement les noms de clés et leur casse.
-                - Les 9 clés doivent toutes être présentes, même si vides.
-                - Chaîne absente -> "". Tableau absent -> [].
-                - N'utilise jamais null ni undefined.
-                - Conserve l'ordre chronologique/original du CV dans les tableaux.
-
-                Voici le CV à convertir :
+                
+                - Return only valid JSON, nothing else.
+                - No text before or after, no markdown, no code block.
+                - Respect exactly the key names and their casing.
+                - All 9 keys must always be present, even if empty.
+                - Missing string -> "".
+                - Missing array -> [].
+                - Never use null or undefined.
+                - Preserve the original chronological/order of the CV in arrays.
+                
+                Here is the CV to convert:
 
                 ${JSON.stringify(data)}
                 `;
@@ -185,21 +202,22 @@ export function PreviewPanel({
         const description = document.getElementById("job-prompt") as HTMLInputElement;
         const addedPrompt = document.getElementById("added-prompt") as HTMLInputElement;
         const userPrompt = `
-        Tu es un rédacteur de lettre de motivation hyper original
-        
-        Ton objectif est de retourner au format JSON avec une seul clé :
-        - motivation qui contientdra la string de la lettre bien espacé
+            You are a highly creative cover letter writer.
 
-        Tu dois rédiger le cv en langue :
-        ${language}
-        Tu rédigeras cette lettre en fonction de cette description de job :
-        ${description?.value} 
-
-        Prends bien en compte de manière important ce qui est ici :
-        ${addedPrompt?.value}
-
-        Le CV de référence est celui-ci : 
-        ${JSON.stringify(cvData)}
+            Your objective is to return a JSON object with exactly one key:
+            - "motivation": containing the full cover letter as a well-formatted string with proper spacing.
+            
+            You must write the cover letter in this language:
+            ${language}
+            
+            You must write this cover letter based on the following job description:
+            ${description?.value}
+            
+            Carefully and importantly take into account the following additional instructions:
+            ${addedPrompt?.value}
+            
+            The reference CV is the following:
+            ${JSON.stringify(cvData)}
         `;
 
         console.log(userPrompt);
