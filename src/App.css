@@ -938,7 +938,7 @@ footer {
     font-size: calc(11px * var(--cv-text-scale));
 }
 .cv-paper .profile-summary {
-    font-size: calc(15px * var(--cv-text-scale));
+    font-size: calc(15px * var(--cv-about-scale));
 }
 .cv-paper .education-item,
 .cv-paper .experience-item,

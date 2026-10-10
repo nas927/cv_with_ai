@@ -28,4 +28,3 @@ https://console.groq.com/keys
 - Mettre en place des checkbox pour inclure ou non des champs impacté par l'ia
 - Mettre à jour le compteur de skills lorsqu'un skill est ajouté depuis son tableau
 - Faire en sorte que si le side est vide mettre la même que la page 1
-- Changer le cv par défaut en guise d'exemple

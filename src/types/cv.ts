@@ -32,6 +32,7 @@ export type DesignSettings = {
     template: string;
     nameScale: number;
     titleScale: number;
+    aboutScale: number;
     textScale: number;
     headingScale: number;
     sectionSpacing: number;

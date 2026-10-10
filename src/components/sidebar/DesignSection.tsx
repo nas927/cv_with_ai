@@ -128,6 +128,14 @@ export function DesignSection({ fold, design, templates, onDesignChange, setTemp
                     />
 
                     <RangeControl
+                        label="Taille de la bio"
+                        value={design.aboutScale}
+                        min={85}
+                        max={150}
+                        onChange={(value) => handleRangeChange('aboutScale', value)}
+                    />
+
+                    <RangeControl
                         label="Taille du texte"
                         value={design.textScale}
                         min={85}

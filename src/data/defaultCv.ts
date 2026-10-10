@@ -1,18 +1,95 @@
 import type { CompetenceItem, CvDocument, CvTemplate, DesignSettings, Education, Experience, Language, Profile, Interests } from '../types/cv';
 
 export const defaultProfile: Profile = {
-    name: 'John Doe', job: 'entreprise', title: 'Ingénieur Cloud Security | DevSecOps | Cloud Security Engineer | Azure | GCP | IAM | CI/CD',
+    name: 'John Doe', job: 'entreprise', title: 'Ingénieur DevSecOps / SRE',
     permis: 'Permis B',
     email: 'exemple@gmail.com', age: '25 ', website: 'https://exemple.com', language: 'Français', region: 'Île de France', city: 'Paris', phone: '0600000000', initials: 'NA',
-    about: "Ingénieur Cloud Security orienté DevSecOps avec une expérience dans le pilotage de projets à grande échelle et la sécurisation des infrastructures. Habitué à coordonner des équipes techniques, intégrer la sécurité dans les projets IT et accompagner les transformations Cloud. Solide culture cybersécurité couvrant la gouvernance SSI, la gestion des risques, l'IAM, les audits de sécurité, la conformité (ISO 27001, NIST, CIS) et l'amélioration continue des processus de sécurité.",
+    about: "Ingénieur passionné par les environnements Linux, l’automatisation et la fiabilité des systèmes. Fort de plusieurs années d’expérience DevOps, je conçois des infrastructures IaC, optimise les pipelines CI/CD et assure le support N3 avec une approche SRE.",
 };
-export const defaultHardSkills = ['Gestion des identités et des accès (IAM)', 'Sécurisation des environnements Cloud Azure et GCP', 'Sécurité réseau et stratégies de chiffrement', 'Gestion des vulnérabilités et plans de remédiation', 'Audits de sécurité applicative (SAST/DAST)', 'Définition des standards d’architecture'];
-export const defaultSoftSkills = ['Leadership technique', 'Résolution de problèmes', 'Force de proposition', 'Culture de la qualité', 'Capacité de vulgarisation'];
+export const defaultHardSkills = [
+    "Programmation Web — NextJS, Laravel, Django, Node.js, Express, Sass, TypeScript, Tailwind, Bootstrap, ESLint, Prettier, Vite, React",
+    "Cybersécurité — Hardening, Pentesting, Threat Modeling, Application Security, Secure Code Review, Malware Analysis, Network Security, API Security, Vulnerability Research, OSINT",
+    "Programmation générale — Python (FastAPI, HuggingFace, Qt), C++ (WxWidgets, ImGui, API Windows/Linux), C (drivers)",
+    "Administration réseau & analyse de paquets — Windows Defender, iptables, Netcat, tcpdump, OpenVPN, OpenSSL, Wireshark, BurpSuite, Nmap",
+    "Cloud & automatisation CI/CD — Terraform, Ansible, Kubernetes, SonarQube, ArgoCD, Vault, VMware, Proxmox",
+    "Méthodologies & bonnes pratiques — Agile Scrum, TDD, DDD, BDD, SOLID, GitOps, Refactoring, Code Review, Clean Code, POO, MVC, MVVM",
+    "Environnements — Linux, Windows, Docker, Git, GitLab, GitHub",
+    "Bases de données — IndexedDB, PostgreSQL, MySQL, SQLite, Elasticsearch",
+    "Observabilité & métriques — Loki, Logstack, Grafana, Prometheus",
+    "Intelligence artificielle — Ollama, GGUF, llama.cpp, LangChain, HuggingFace, RAG, Fine-Tune",
+    "Scripting — Bash, PowerShell, sh, zsh",
+    "Tests & validation — Jest, Vitest, Playwright, xUnit, NUnit, Postman",
+    "DevSecOps — SAST, DAST, PRA, PCA, HA, HLA, LLA, LPM, rédaction DAS/DAT"
+  ];
+  
+  export const defaultSoftSkills = [
+    "Communication efficace",
+    "Travail d'équipe",
+    "Gestion du temps",
+    "Résolution de problèmes",
+    "Adaptabilité",
+    "Leadership technique",
+    "Esprit analytique"
+  ];
 export const defaultLanguages: Language[] = [{ name: 'Français', level: 'natif' }, { name: 'Anglais', level: 'C2' }, { name: 'Espagnol', level: 'B2' }];
 export const defaultExperiences: Experience[] = [
-    { company: 'entreprise 1', role: 'Chef de projet / Architecte Cloud & DevSecOps', date: 'De sept. 2022 à déc. 2025', location: 'Île-de-France', text: 'Pilotage de plus de 300 sites et coordination de projets d’envergure nationale. Coordination des équipes techniques, métiers et prestataires. Suivi des plannings, budgets, risques et indicateurs de performance. Participation à la définition des architectures techniques et des bonnes pratiques. Pilotage des déploiements et accompagnement des équipes jusqu’à la mise en production.' },
-    { company: 'entreprise 2', role: 'Fondateur & Chef de Projet – Entreprise personnelle', date: 'Depuis jan. 2020', location: 'Paris, Île-de-France', text: 'Conception, développement et déploiement de solutions techniques. Mise en place d’architectures Cloud sécurisées et évolutives. Administration de serveurs Linux et Windows. Intégration de mécanismes de sécurité dès la conception (Security by Design). Gestion des identités, des accès et des droits utilisateurs.' },
-];
+    {
+      company: "Groupama",
+      role: "Ingénieur DevSecOps",
+      date: "Sept. 2022 - Déc. 2025",
+      location: "Île-de-France",
+      text: "Conception et déploiement d’infrastructures automatisées avec Terraform et Ansible. Gestion de clusters Kubernetes pour des applications critiques, mise en place de pipelines CI/CD sécurisés avec GitLab CI, intégration GitOps via ArgoCD, développement de tableaux de bord de monitoring avec Prometheus et Grafana. Prise en charge du support N3 et résolution d’incidents majeurs selon les principes SRE. Amélioration du MTTR de 30 % grâce à l’automatisation des diagnostics."
+    },
+    {
+      company: "Lynoria OS",
+      role: "Architecte Full-Stack",
+      date: "2025 - 2026",
+      location: "Paris/Lille",
+      text: "Architecture de solutions cloud-native basées sur Docker et Kubernetes. Définition de patterns de microservices, automatisation du provisionnement d’infrastructure avec Terraform, création de scripts Python pour la gestion du cycle de vie des conteneurs. Optimisation des pipelines CI/CD avec GitLab et déploiement continu via ArgoCD. Mise en place d’une observabilité complète avec Prometheus et Grafana et participation aux revues d’incidents pour garantir la haute disponibilité."
+    },
+    {
+      company: "Alpaguide.fr",
+      role: "Développeur Full Stack Web & Mobile",
+      date: "Aujourd'hui",
+      location: "Paris",
+      text: "Développement d'une plateforme web et mobile avec Next.js, React et TypeScript. Conception de nouvelles fonctionnalités et amélioration continue de l'expérience utilisateur. Coordination technique entre plusieurs développeurs et participation aux choix d'architecture. Mise en place et optimisation des processus de développement et de livraison continue."
+    },
+    {
+      company: "DIA",
+      role: "Architecte IA",
+      date: "2024 - 2025",
+      location: "Île-de-France",
+      text: "Déploiement d’une solution de détection d’images suspectes basée sur l’intelligence artificielle pour une dizaine de magasins DIA. Conception et mise en place d’un modèle d’analyse d’images permettant d’identifier automatiquement des comportements ou situations visuelles inhabituelles afin d’améliorer la surveillance, la prévention des incidents et la réactivité des équipes terrain. Intégration de la solution dans l’environnement existant, optimisation des performances du modèle et accompagnement des utilisateurs."
+    },
+    {
+      company: "ExcelCoder",
+      role: "Développeur Python / IA",
+      date: "2025",
+      location: "Paris",
+      text: "Développement d'une extension Microsoft Excel intégrant un assistant basé sur des LLM. Conception et déploiement d'un modèle d'intelligence artificielle local au format GGUF. Mise en place d'une solution garantissant confidentialité, faible latence et traitement local des données. Développement et maintenance du projet au sein d'un dépôt Git privé."
+    },
+    {
+      company: "Stresser.to",
+      role: "Développeur SaaS",
+      date: "2022",
+      location: "Paris",
+      text: "Conception et développement d'une plateforme SaaS destinée aux tests de charge réseau et à l'évaluation de la résilience des infrastructures. Développement du backend, de l'interface d'administration et des systèmes de gestion utilisateurs."
+    },
+    {
+      company: "MakeFolio",
+      role: "Fondateur & Développeur Application IA",
+      date: "2026",
+      location: "Paris",
+      text: "Conception d'une plateforme de génération de CV assistée par intelligence artificielle. Développement du frontend avec React et du backend serverless sur Vercel. Génération automatisée de CV adaptés aux offres d'emploi grâce aux LLM. Développement d'un moteur de personnalisation des compétences, expériences et mises en page."
+    },
+    {
+      company: "Kibyli, KrystalBeauty",
+      role: "Développeur WordPress",
+      date: "2024",
+      location: "Paris",
+      text: "Développement de sites WordPress sur mesure en PHP. Création d'une boutique e-commerce avec gestion des commandes et paiements. Développement d'un site vitrine intégrant un système de réservation et de calendrier. Maintenance et évolution du code source via GitHub privé."
+    }
+  ];
 export const defaultRealization: Experience[] = [
     { company: 'Semjase Dev', date: '(2016)', location: '', text: '+ 10000 utilisateurs à travers le monde. Expérience concrète et renommée dans le monde du reverse gaming à l’âge de 15 ans.' },
 ];
@@ -37,5 +114,5 @@ export const defaultOrder = [
 ]
 export const defaultEducation: Education[] = [{ title: 'Pentester Senior', date: 'Depuis avr. 2024', location: 'TryHackMe · Paris', text: 'Cours et CTF gamifié pour tester et améliorer ses compétences en cybersécurité, niveau Master top 3%.' }, { title: 'École 42', date: 'De mai 2021 à juin 2022', location: 'Paris 17', text: 'Post BAC scientifique après 2 ans de développement web Symfony et Angular. Assembleur, NASM, C, C++, algorithmie, architecture LLM et environnement Unix.' }];
 export const defaultCompetences: CompetenceItem[] = [{ name: 'DevSecOps', text: 'ISO 27001, NIST, CIS Benchmarks, OWASP Top 10, Politiques de sécurité, Gouvernance SSI' }, { name: 'Réseau', text: 'TCP/IP, DNS, Load Balancer, Reverse Proxy, Firewall' }, { name: 'Cloud & Infrastructure', text: 'Azure, Google Cloud Platform (GCP), Virtualisation, IaC, Docker, Kubernetes, VPN' }, { name: 'Infrastructure as Code', text: 'Terraform, Ansible' }, { name: 'CyberSécurité', text: 'Cloud Security, IAM, RBAC, MFA, Zero Trust, Hardening, Gestion des vulnérabilités, Threat Modeling, Chiffrement, PKI, SIEM, SOC' }, { name: 'Architecture', text: 'Architecture Cloud, Architecture sécurisée, DAT, DAS, Urbanisation SI, Conception technique, Transformation Cloud' }];
-export const defaultDesign: DesignSettings = { picSize: 165, template: 'folio', nameScale: 235, titleScale: 110, textScale: 95, headingScale: 95, sectionSpacing: 100, blockSpacing: 50, lineHeight: 130, font: "'DM Sans'", accent: '#6d8520', ink: '#292928' };
+export const defaultDesign: DesignSettings = { picSize: 165, template: 'folio', nameScale: 235, titleScale: 110, aboutScale: 85, textScale: 95, headingScale: 95, sectionSpacing: 100, blockSpacing: 50, lineHeight: 130, font: "'DM Sans'", accent: '#6d8520', ink: '#292928' };
 export const defaultCvDocument: CvDocument = { profile: defaultProfile, photo: '', hardSkills: defaultHardSkills, softSkills: defaultSoftSkills, experiences: defaultExperiences, realizations: defaultRealization, interests: defaultInterests, education: defaultEducation, competences: defaultCompetences, languages: defaultLanguages, sectionOrder: defaultOrder, design: defaultDesign };

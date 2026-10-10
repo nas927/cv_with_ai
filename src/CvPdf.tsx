@@ -201,6 +201,7 @@ function renderAsideSection(section: SectionOrder, document: CvDocument): ReactN
 }
 
 // Rendu des sections qui vont dans la colonne principale (contenu).
+// IMPORTANT ! Gérer les contenus trop grand
 function renderMainSection(section: SectionOrder, document: CvDocument): ReactNode {
     const { experiences, education, competences, hardSkills } = document;
 
@@ -350,7 +351,6 @@ function buildPagePlan(
         while (mainIndex < mainSections.length) {
             const section = mainSections[mainIndex];
             const height = heights[section.title] ?? 0;
-            console.log(mainHeightUsed + height, maxMainHeight)
             if (mainHeightUsed + height > maxMainHeight && page.main.length > 0) break;
             page.main.push(section);
             mainHeightUsed += height;
@@ -376,6 +376,7 @@ function buildPaperStyle(design: CvDocument['design']): CSSProperties {
     return {
         '--cv-name-scale': design.nameScale / 100,
         '--cv-title-scale': design.titleScale / 100,
+        '--cv-about-scale': design.aboutScale / 100,
         '--cv-text-scale': design.textScale / 100,
         '--cv-heading-scale': design.headingScale / 100,
         '--cv-section-spacing': design.sectionSpacing / 100,
@@ -620,7 +621,7 @@ export function CvHtml({
                         ))}
                     </aside>
                     <div className="cv-content" style={{ height: 'auto', overflow: 'visible' }}>
-                        <p data-measure-title="__summary__" className="profile-summary">
+                        <p data-measure-title="__summary__" className="profile-summary" style={{ }}>
                             {document.profile.about}
                         </p>
                         {allMainSections.map((section) => (
