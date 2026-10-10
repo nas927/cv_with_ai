@@ -8,15 +8,15 @@ export function affectAllData(newData: AiCvResponse, setCvData: React.Dispatch<R
         ...current,
         profile: {
             ...current.profile,
-            job: newData.profile.job,
-            title: newData.profile.title,
-            about: newData.profile.about,
+            job: newData?.profile?.job ?? current.profile.job,
+            title: newData?.profile?.title ?? current.profile.title,
+            about: newData?.profile?.about ?? current.profile.about,
         },
-        hardSkills: newData.hardSkills,
-        softSkills: newData.softSkills,
-        experiences: newData.experiences,
-        competences: newData.competences,
-        education: newData.education ?? current.education,
+        hardSkills: newData?.hardSkills ?? current.hardSkills,
+        softSkills: newData?.softSkills ?? current.softSkills,
+        experiences: newData?.experiences ?? current.experiences,
+        competences: newData?.competences ?? current.competences,
+        education: newData?.education ?? current.education,
     }));
 }
 

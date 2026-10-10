@@ -1,9 +1,6 @@
 import type { CvDocument, ImportantCv, Profile } from '../types/cv';
 
-export type AiCvResponse = Pick<
-    CvDocument,
-    'hardSkills' | 'softSkills' | 'experiences' | 'competences'
-> & { profile: Profile; education?: CvDocument['education'] };
+export type AiCvResponse = Partial<CvDocument>;
 type AiDocumentUpdate = Omit<AiCvResponse, 'profile'> & { profile: Profile };
 
 const generatedList = <T,>(generated: T[] | undefined, current: T[], max: number): T[] => {
@@ -20,7 +17,6 @@ const parseAiJson = (content: string, isPartial: boolean = false): Partial<CvDoc
     const end = cleaned.lastIndexOf('}');
     if (start < 0 || end <= start) throw new Error('Réponse JSON invalide');
     const parsed = JSON.parse(cleaned.slice(start, end + 1)) as Partial<CvDocument>;
-    //console.log('Réponse IA parsée :', parsed);
     if (
         !isPartial && (
         !parsed.profile ||
@@ -32,7 +28,7 @@ const parseAiJson = (content: string, isPartial: boolean = false): Partial<CvDoc
         !Array.isArray(parsed.hardSkills) ||
         !Array.isArray(parsed.softSkills)
     )) {
-        throw new Error('Réponse IA incomplète : le profil et les quatre listes sont nécessaires');
+        console.log('Réponse IA incomplète : le profil et les quatre listes sont nécessaires');
     }
     return parsed as Partial<CvDocument>;
 };
@@ -43,9 +39,9 @@ export const constrainAiDocument = (
 ): AiDocumentUpdate => ({
     profile: {
         ...current.profile,
-        job: generated.profile.job,
-        title: generated.profile.title,
-        about: generated.profile.about,
+        job: generated?.profile?.job ?? current.profile.job,
+        title: generated?.profile?.title ?? current.profile.title,
+        about: generated?.profile?.about ?? current.profile.about,
     },
     hardSkills: generatedList(generated.hardSkills, current.hardSkills, 12),
     softSkills: generatedList(generated.softSkills, current.softSkills, 12),
