@@ -90,8 +90,31 @@ export const defaultExperiences: Experience[] = [
       text: "Développement de sites WordPress sur mesure en PHP. Création d'une boutique e-commerce avec gestion des commandes et paiements. Développement d'un site vitrine intégrant un système de réservation et de calendrier. Maintenance et évolution du code source via GitHub privé."
     }
   ];
-export const defaultRealization: Experience[] = [
-    { company: 'Semjase Dev', date: '(2016)', location: '', text: '+ 10000 utilisateurs à travers le monde. Expérience concrète et renommée dans le monde du reverse gaming à l’âge de 15 ans.' },
+  export const defaultRealization: Experience[] = [
+    {
+      company: 'Semjase Dev',
+      date: '(2016)',
+      location: '',
+      text: '+10 000 utilisateurs à travers le monde. Développement d’outils en C++ et reconnaissance dans le domaine du reverse engineering et du reverse gaming dès l’âge de 15 ans.'
+    },
+    {
+      company: 'Semjase Dev',
+      date: '(2016)',
+      location: '',
+      text: 'Création et diffusion de contenus pédagogiques sur différents domaines de l’IT, notamment en développement, cybersécurité et DevOps, au format LinkedIn.'
+    },
+    {
+      company: 'Semjase Dev',
+      date: '(2016)',
+      location: '',
+      text: 'Animation de lives TikTok avec un jeu interactif entièrement automatisé, piloté en temps réel par les commentaires des spectateurs.'
+    },
+    {
+      company: 'Semjase Dev',
+      date: '(2016)',
+      location: '',
+      text: 'Développement de différents outils de cybersécurité à usage personnel : automatisation, analyse, recherche en sécurité et expérimentation.'
+    }
 ];
 export const defaultInterests: Interests[] = [
     { title: 'Semjase Dev', text: 'Passionné par le développement de jeux vidéo et la cybersécurité.' }
@@ -102,17 +125,36 @@ export const defaultTemplate: CvTemplate[] = [
     { id: 'compact', name: 'Compact', description: 'Dense pour les profils expérimentés', used: false, css: '' },
 ]
 export const defaultOrder = [
-    {name: 'about', title: 'about', isAside: true, isVisible: true},
-    {name: 'languages', title: 'languages', isAside: true, isVisible: true}, 
-    {name: 'hardSkills', title:'hardSkills', isAside: true, isVisible: true}, 
-    {name: 'softSkills', title:'softSkills', isAside: true, isVisible: true}, 
-    {name: 'realizations', title:'realizations', isAside: true, isVisible: true}, 
-    {name: 'interests', title:'interests', isAside: true, isVisible: true}, 
-    {name: 'educations', title:'educations', isAside: false, isVisible: true}, 
-    {name: 'experiences', title:'experiences', isAside: false, isVisible: true}, 
-    {name: 'competences', title:'competences', isAside: false, isVisible: true}
+    {name: 'A propos', title: 'about', isAside: true, isVisible: true},
+    {name: 'Langues', title: 'languages', isAside: true, isVisible: true}, 
+    {name: 'HardSkills', title:'hardSkills', isAside: true, isVisible: true}, 
+    {name: 'SoftSkills', title:'softSkills', isAside: true, isVisible: true}, 
+    {name: 'Réalisations', title:'realizations', isAside: true, isVisible: true}, 
+    {name: 'Centre d\'intérêts', title:'interests', isAside: true, isVisible: true}, 
+    {name: 'Formations', title:'educations', isAside: false, isVisible: true}, 
+    {name: 'Expériences', title:'experiences', isAside: false, isVisible: true}, 
+    {name: 'Compétences', title:'competences', isAside: false, isVisible: true}
 ]
-export const defaultEducation: Education[] = [{ title: 'Pentester Senior', date: 'Depuis avr. 2024', location: 'TryHackMe · Paris', text: 'Cours et CTF gamifié pour tester et améliorer ses compétences en cybersécurité, niveau Master top 3%.' }, { title: 'École 42', date: 'De mai 2021 à juin 2022', location: 'Paris 17', text: 'Post BAC scientifique après 2 ans de développement web Symfony et Angular. Assembleur, NASM, C, C++, algorithmie, architecture LLM et environnement Unix.' }];
+export const defaultEducation: Education[] = [
+  {
+    title: 'TryHackMe – Pentester Senior',
+    date: 'Depuis avr. 2024',
+    location: 'Paris',
+    text: 'Plateforme d’apprentissage pratique en cybersécurité. Hardening Linux, audits de sécurité réseau, conformité aux normes industrielles, sécurisation d’environnements cloud et CTF. Niveau Master (Top 3%).'
+  },
+  {
+    title: 'École 42 – Programme autodidacte avancé',
+    date: '2020 - 2021',
+    location: 'Paris',
+    text: 'Programme autodidacte approfondissant les algorithmes avancés, la programmation orientée objet en C++, la conception d’architectures scalables, les pratiques DevOps et la cybersécurité des systèmes.'
+  },
+  {
+    title: 'Epitech – Diplôme Full Stack',
+    date: '2019 - 2020',
+    location: 'Paris',
+    text: 'Formation intensive en développement bas niveau (C/C++), systèmes Linux embarqués, développement de pilotes matériels, optimisation des performances, automatisation des réseaux et sécurisation des infrastructures.'
+  }
+];
 export const defaultCompetences: CompetenceItem[] = [{ name: 'DevSecOps', text: 'ISO 27001, NIST, CIS Benchmarks, OWASP Top 10, Politiques de sécurité, Gouvernance SSI' }, { name: 'Réseau', text: 'TCP/IP, DNS, Load Balancer, Reverse Proxy, Firewall' }, { name: 'Cloud & Infrastructure', text: 'Azure, Google Cloud Platform (GCP), Virtualisation, IaC, Docker, Kubernetes, VPN' }, { name: 'Infrastructure as Code', text: 'Terraform, Ansible' }, { name: 'CyberSécurité', text: 'Cloud Security, IAM, RBAC, MFA, Zero Trust, Hardening, Gestion des vulnérabilités, Threat Modeling, Chiffrement, PKI, SIEM, SOC' }, { name: 'Architecture', text: 'Architecture Cloud, Architecture sécurisée, DAT, DAS, Urbanisation SI, Conception technique, Transformation Cloud' }];
 export const defaultDesign: DesignSettings = { picSize: 165, template: 'folio', nameScale: 235, titleScale: 110, aboutScale: 85, textScale: 95, headingScale: 95, sectionSpacing: 100, blockSpacing: 50, lineHeight: 130, font: "'DM Sans'", accent: '#6d8520', ink: '#292928' };
 export const defaultCvDocument: CvDocument = { profile: defaultProfile, photo: '', hardSkills: defaultHardSkills, softSkills: defaultSoftSkills, experiences: defaultExperiences, realizations: defaultRealization, interests: defaultInterests, education: defaultEducation, competences: defaultCompetences, languages: defaultLanguages, sectionOrder: defaultOrder, design: defaultDesign };

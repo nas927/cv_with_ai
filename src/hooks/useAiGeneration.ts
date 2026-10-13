@@ -113,6 +113,7 @@ export function useAiGeneration() {
             }
             
             Rules:
+            - Never delete any item
             - Never modify "company".
             - "role" MUST follow this exact format:
               "<original role> / <adapted role>"
@@ -188,7 +189,6 @@ export function useAiGeneration() {
             Never:
             - merge items
             - remove items
-            - add items
             
             Expected sizes:
             ${JSON.stringify(counts)}
