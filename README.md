@@ -21,10 +21,11 @@ https://console.groq.com/keys
 - Paste your groq api key in the app stored in local
 - Load your odd application to the site to autocomplete information about you and career
 - Paste the description job, put tjm if you want to put your tarification in description of your application
-- generate 
+- generate (be careful of quantity information you send to ai if it doesnt do his job properly)
 
 # A faire
 
 - Mettre en place des checkbox pour inclure ou non des champs impacté par l'ia
 - Mettre à jour le compteur de skills lorsqu'un skill est ajouté depuis son tableau
 - Faire en sorte que si le side est vide mettre la même que la page 1
+- Faire en sorte que la personne puisse charger par défaut avec son propre défaut

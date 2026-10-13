@@ -265,7 +265,7 @@ export function useAiGeneration() {
             setOptimizationMessage('CV optimisé par IA');
         } catch (error) {
             console.error('Erreur lors de la génération:', error);
-            setOptimizationMessage('Erreur lors de l\'optimisation');
+            setOptimizationMessage('Erreur lors de l\'optimisation attendez 30 secondes avant la prochaine génération vous utilisez beaucoup de token à la minute');
             setAiResponse(`Erreur : ${error instanceof Error ? error.message : 'réponse IA invalide'}`);
         } finally {
             setIsGenerating(false);

@@ -127,13 +127,13 @@ export const defaultTemplate: CvTemplate[] = [
 export const defaultOrder = [
     {name: 'A propos', title: 'about', isAside: true, isVisible: true},
     {name: 'Langues', title: 'languages', isAside: true, isVisible: true}, 
-    {name: 'HardSkills', title:'hardSkills', isAside: true, isVisible: true}, 
     {name: 'SoftSkills', title:'softSkills', isAside: true, isVisible: true}, 
+    {name: 'HardSkills', title:'hardSkills', isAside: true, isVisible: true}, 
     {name: 'Réalisations', title:'realizations', isAside: true, isVisible: true}, 
     {name: 'Centre d\'intérêts', title:'interests', isAside: true, isVisible: true}, 
     {name: 'Formations', title:'educations', isAside: false, isVisible: true}, 
-    {name: 'Expériences', title:'experiences', isAside: false, isVisible: true}, 
-    {name: 'Compétences', title:'competences', isAside: false, isVisible: true}
+    {name: 'Compétences', title:'competences', isAside: false, isVisible: true},
+    {name: 'Expériences', title:'experiences', isAside: false, isVisible: true}
 ]
 export const defaultEducation: Education[] = [
   {
@@ -156,5 +156,5 @@ export const defaultEducation: Education[] = [
   }
 ];
 export const defaultCompetences: CompetenceItem[] = [{ name: 'DevSecOps', text: 'ISO 27001, NIST, CIS Benchmarks, OWASP Top 10, Politiques de sécurité, Gouvernance SSI' }, { name: 'Réseau', text: 'TCP/IP, DNS, Load Balancer, Reverse Proxy, Firewall' }, { name: 'Cloud & Infrastructure', text: 'Azure, Google Cloud Platform (GCP), Virtualisation, IaC, Docker, Kubernetes, VPN' }, { name: 'Infrastructure as Code', text: 'Terraform, Ansible' }, { name: 'CyberSécurité', text: 'Cloud Security, IAM, RBAC, MFA, Zero Trust, Hardening, Gestion des vulnérabilités, Threat Modeling, Chiffrement, PKI, SIEM, SOC' }, { name: 'Architecture', text: 'Architecture Cloud, Architecture sécurisée, DAT, DAS, Urbanisation SI, Conception technique, Transformation Cloud' }];
-export const defaultDesign: DesignSettings = { picSize: 165, template: 'folio', nameScale: 235, titleScale: 110, aboutScale: 85, textScale: 95, headingScale: 95, sectionSpacing: 100, blockSpacing: 50, lineHeight: 130, font: "'DM Sans'", accent: '#6d8520', ink: '#292928' };
+export const defaultDesign: DesignSettings = { picSize: 170, template: 'folio', nameScale: 235, titleScale: 110, aboutScale: 85, textScale: 90, headingScale: 95, sectionSpacing: 50, blockSpacing: 50, lineHeight: 130, font: "'DM Sans'", accent: '#6a178e', ink: '#292928' };
 export const defaultCvDocument: CvDocument = { profile: defaultProfile, photo: '', hardSkills: defaultHardSkills, softSkills: defaultSoftSkills, experiences: defaultExperiences, realizations: defaultRealization, interests: defaultInterests, education: defaultEducation, competences: defaultCompetences, languages: defaultLanguages, sectionOrder: defaultOrder, design: defaultDesign };

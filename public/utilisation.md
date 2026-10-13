@@ -19,6 +19,8 @@ Maintenant vous pouvez générer vos cv.
 - L'index db de votre navigateur stockera tous vos jobs avec en clé l'entreprise, le titre du cv à ce moment, le nom du cv, la biographie à ce moment. En bas de page vous avez les 5 derniers au format json
 sinon rendez-vous sur F12 -> Stockage -> IndexDB
 
+Si le llm génère mal c'est qu'il y a beaucoup trop d'information pour l'ia réduisez et tentez 
+
 # Conseil d'utilisation
 
 1. Mettez au moins 2 posts en expérience
