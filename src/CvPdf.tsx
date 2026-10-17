@@ -360,8 +360,6 @@ function buildPagePlan(
     let asideIndex = 0;
     let mainIndex = 0;
 
-    console.log("reserved ", reservedFirstPageMainHeight, reservedFirstPageAsideHeight)
-
     do {
         const isFirstPage = pages.length === 0;
         const page: PagePlan = { aside: [], main: [] };
@@ -383,7 +381,6 @@ function buildPagePlan(
         while (mainIndex < mainSections.length) {
             const section = mainSections[mainIndex];
             const height = heights[section.title] ?? 0;
-            console.log(mainHeightUsed + height, maxMainHeight)
             if (mainHeightUsed + height > maxMainHeight && page.main.length > 0) break;
             page.main.push(section);
             mainHeightUsed += height;
@@ -394,7 +391,6 @@ function buildPagePlan(
                 {name: 'newHeader', title: 'newHeader', isAside: true, isVisible: true, isImpacted: false},
                 ...pages[0].aside
             ]
-        console.log(page)
         pages.push(page);
     } while (asideIndex < asideSections.length || mainIndex < mainSections.length);
 
