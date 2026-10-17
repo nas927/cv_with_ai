@@ -55,6 +55,17 @@ des galères à raconter.
 
 Si vous arrivez là c'est que vous avez plus besoin de moi :).
 
+# Retrouver une description depuis l'appli
+
+En bas dans les 5 dernières réponses de la bdd vous avez charger en console cliquez dessus
+Ensuite ouvrez l'inspecteur avec f12 allez dans console
+Vous verrez un tableau tout en bas cliquez droit dessus et faites enregistrer comme variable globale ou quelque chose du genre
+```javascript
+    temp0.map((tmp) => { if (tmp.entreprise.search("recherche") !== -1) console.log(tmp) })
+```
+Collez la commande en haut et remplacez recherche par ce que vous cherchez il retournera le tableau s'il trouve sinon rien
+Replacez temp0 par le nom de la variable globale que vous aurez choisit
+
 # Comment modifier le design du cv à votre guise
 
 Envoyez à l'ia ce prompt et modifier le chat en fonction de vos besoin ensuite copier collez le css généré dans le css de la sections template du template que vous utilisez
@@ -250,10 +261,7 @@ Envoyez à l'ia ce prompt et modifier le chat en fonction de vos besoin ensuite 
 
 # Voici ce qui est prévu pour l'ajout
 
-- Possibilité d'ajouter d'autre section
-- Changer la manière de générer le pdf : https://github.com/eKoopmans/html2pdf.js/issues/56#issuecomment-360985935
-
-- Optionnel Ajouter une section lettre de motivation qu'on peut swipe avec cv
+- Rien pour le moment
 
 Voilà faites de votre mieux j'ai mis un mini ats bypass en bas je vais l'améliorer et vous promots de faire le maximum pour les contrecarrers. N'hésitez pas depuis mon profile linkedin à me faire des retours : https://www.linkedin.com/in/nassim-a-b015b4302/
 

@@ -23,4 +23,5 @@ https://console.groq.com/keys
 - Paste the description job, put tjm if you want to put your tarification in description of your application
 - generate (be careful of quantity information you send to ai if it doesnt do his job properly)
 
-# A faire
+# To DO
+Nothing for the moment
