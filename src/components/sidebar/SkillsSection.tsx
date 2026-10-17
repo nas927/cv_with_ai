@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
-import { initializeSkills, initializeCompetences } from "../../lib/utils";
+import { initializeSkills, initializeCompetences, filterIt } from "../../lib/utils";
 import type { CompetenceItem, CvDocument } from "../../types/cv";
 
 interface SkillsSectionProps {
     fold: boolean;
+    cvData: CvDocument;
     sharedSkillCount: number;
     setSharedSkillCount: (count: number) => void;
     setCvData: React.Dispatch<React.SetStateAction<CvDocument>>;
     resizeAllSkills: (count: number) => void;
 }
 
-export function SkillsSection({ fold, sharedSkillCount, setSharedSkillCount, setCvData, resizeAllSkills }: SkillsSectionProps) {
+export function SkillsSection({ fold, cvData, sharedSkillCount, setSharedSkillCount, setCvData, resizeAllSkills }: SkillsSectionProps) {
     const [showDesignControls, setShowDesignControls] = useState(false);
-    const [competenceCount, setCompetenceCount] = useState(localStorage.getItem('competenceCount') ?? 9)
-    const [hardSkillsCount, setHardSkillsCount] = useState(localStorage.getItem('hardSkillsCount') ?? 14)
-    const [softSkillsCount, setSoftSkillsCount] = useState(localStorage.getItem('softSkillsCount') ?? sharedSkillCount)
+    const competences = filterIt(cvData.sectionOrder , 'competences')
+    const softskills = filterIt(cvData.sectionOrder , 'softSkills')
+    const hardskills = filterIt(cvData.sectionOrder , 'hardSkills')
 
     useEffect(() => {
         if (fold !== null)
@@ -45,17 +46,21 @@ export function SkillsSection({ fold, sharedSkillCount, setSharedSkillCount, set
                     value={sharedSkillCount}
                     onChange={(event) => {
                         const newCount = Number(event.target.value);
-
+                        
+                        if (competences?.index && softskills?.index && hardskills?.index)
+                            setCvData(prev => ({
+                                ...prev,
+                                sectionOrder: prev.sectionOrder.map((section, index) =>
+                                    index === competences.index || index === softskills.index || index === hardskills.index
+                                        ? {
+                                              ...section,
+                                              count: sharedSkillCount,
+                                          }
+                                        : section
+                                ),
+                            }));
                         setSharedSkillCount(newCount);
-                        setCompetenceCount(newCount);
-                        setHardSkillsCount(newCount);
-                        setSoftSkillsCount(newCount);
                         resizeAllSkills(newCount);
-                    
-                        localStorage.setItem('sharedSkillCount', event.target.value);
-                        localStorage.setItem('competenceCount', event.target.value);
-                        localStorage.setItem('hardSkillsCount', event.target.value);
-                        localStorage.setItem('softSkillsCount', event.target.value);
                     }}
                 />
             </label>
@@ -65,17 +70,23 @@ export function SkillsSection({ fold, sharedSkillCount, setSharedSkillCount, set
                     type="number"
                     min="0"
                     max="19"
-                    value={competenceCount}
+                    value={competences?.object.count}
                     onChange={(event) => {
                         const newCount = Number(event.target.value);
 
-                        setCvData((current) => ({
-                            ...current,
-                            competences: (initializeCompetences(current.competences, 'Competence', newCount) as CompetenceItem[]),
-                        }));
-                    
-                        localStorage.setItem('competenceCount', event.target.value);
-                        setCompetenceCount(newCount);
+                        if (competences?.index)
+                            setCvData((current) => ({
+                                ...current,
+                                competences: (initializeCompetences(current.competences, 'Competence', newCount) as CompetenceItem[]),
+                                sectionOrder: current.sectionOrder.map((section, index) =>
+                                    index === competences.index
+                                        ? {
+                                              ...section,
+                                              count: newCount,
+                                          }
+                                        : section
+                                ),
+                            }));
                     }}
                 />
             </label>
@@ -85,17 +96,22 @@ export function SkillsSection({ fold, sharedSkillCount, setSharedSkillCount, set
                     type="number"
                     min="0"
                     max="19"
-                    value={hardSkillsCount}
+                    value={hardskills?.object.count}
                     onChange={(event) => {
                         const newCount = Number(event.target.value);
-
-                        setCvData((current) => ({
-                            ...current,
-                            hardSkills: (initializeSkills(current.hardSkills, 'hardSkills', newCount)),
-                        }));
-                    
-                        localStorage.setItem('hardSkillsCount', event.target.value);
-                        setHardSkillsCount(newCount);
+                        if (hardskills?.index)
+                            setCvData((current) => ({
+                                ...current,
+                                hardSkills: (initializeSkills(current.hardSkills, 'hardSkills', newCount)),
+                                sectionOrder: current.sectionOrder.map((section, index) =>
+                                    index === hardskills.index
+                                        ? {
+                                              ...section,
+                                              count: newCount,
+                                          }
+                                        : section
+                                ),
+                            }));
                     }}
                 />
             </label>
@@ -105,17 +121,22 @@ export function SkillsSection({ fold, sharedSkillCount, setSharedSkillCount, set
                     type="number"
                     min="0"
                     max="19"
-                    value={softSkillsCount}
+                    value={softskills?.object.count}
                     onChange={(event) => {
                         const newCount = Number(event.target.value);
-
-                        setCvData((current) => ({
-                            ...current,
-                            softSkills: (initializeSkills(current.softSkills, 'softSkills', newCount)),
-                        }));
-                    
-                        localStorage.setItem('softSkillsCount', event.target.value);
-                        setSoftSkillsCount(newCount);
+                        if (softskills?.index)
+                            setCvData((current) => ({
+                                ...current,
+                                softSkills: (initializeSkills(current.softSkills, 'softSkills', newCount)),
+                                sectionOrder: current.sectionOrder.map((section, index) =>
+                                    index === softskills.index
+                                        ? {
+                                              ...section,
+                                              count: newCount,
+                                          }
+                                        : section
+                                ),
+                            }));
                     }}
                 />
             </label>

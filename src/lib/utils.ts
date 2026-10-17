@@ -1,4 +1,4 @@
-import type { CvDocument, CompetenceItem } from "../types/cv";
+import type { CvDocument, CompetenceItem, SectionOrder } from "../types/cv";
 
 export const cleanJobDescription = (description: string): string => {
     return description.trim();
@@ -131,4 +131,31 @@ export function initializeSkills(originalSkills: string[], what: string, count: 
     while (originalSkills.length < count)
         originalSkills.push(`${what} ${originalSkills.length + 1}`);
     return originalSkills;
+}
+
+export function filterIt( arr: SectionOrder[], searchKey: string): { object: SectionOrder; index: number } | null {
+    const index = arr.findIndex(obj => obj.title === searchKey);
+
+    if (index === -1)
+        return null;
+
+    return {
+        object: arr[index],
+        index
+    };
+}
+
+export function changeSectionOrderImapcted(setCvData: React.Dispatch<React.SetStateAction<CvDocument>>, title: string)
+{
+    setCvData(current => ({
+        ...current,
+        sectionOrder: current.sectionOrder.map(obj =>
+            obj.title === title ? (
+                {
+                    ...obj,
+                    isImpacted: !obj.isImpacted
+                }
+            ): obj
+        ),
+    }))
 }

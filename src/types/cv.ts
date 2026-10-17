@@ -26,7 +26,7 @@ export type Experience = {
 export type Education = { title: string; date: string; location: string; text: string };
 export type Interests = { title: string; text: string };
 export type CompetenceItem = { name: string; text: string };
-export type SectionOrder = {name: string, title: string, isAside: boolean, isVisible: boolean};
+export type SectionOrder = {name: string, title: string, isAside: boolean, isVisible: boolean, isImpacted: boolean, count?: number};
 export type DesignSettings = {
     picSize: number;
     template: string;

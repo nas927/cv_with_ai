@@ -24,8 +24,3 @@ https://console.groq.com/keys
 - generate (be careful of quantity information you send to ai if it doesnt do his job properly)
 
 # A faire
-
-- Mettre en place des checkbox pour inclure ou non des champs impacté par l'ia
-- Mettre à jour le compteur de skills lorsqu'un skill est ajouté depuis son tableau
-- Faire en sorte que si le side est vide mettre la même que la page 1
-- Faire en sorte que la personne puisse charger par défaut avec son propre défaut

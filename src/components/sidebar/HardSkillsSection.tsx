@@ -32,12 +32,28 @@ export function HardSkillsSection({
         setCvData((current) => ({
             ...current,
             hardSkills: [...current.hardSkills, `hardskill`],
+            sectionOrder: current.sectionOrder.map(obj =>
+                obj.title === "hardSkills" ? (
+                    {
+                        ...obj,
+                        count: (obj.count ?? 0) + 1
+                    }
+                ): obj
+            ),
         }));
     
     const removeSkill = (index: number) =>
         setCvData((current) => ({
             ...current,
             hardSkills: current.hardSkills.filter((_, i) => i !== index),
+            sectionOrder: current.sectionOrder.map(obj =>
+                obj.title === "hardSkills" ? (
+                    {
+                        ...obj,
+                        count: (obj.count ?? 0) - 1
+                    }
+                ): obj
+            ),
         }));
     
     return (

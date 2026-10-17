@@ -1,6 +1,11 @@
+import type { CvDocument } from "../../types/cv";
+import { changeSectionOrderImapcted, filterIt } from "../../lib/utils";
+
 interface AiSectionProps {
     fold: boolean;
     setFold: (value: boolean) => void;
+    cvData: CvDocument;
+    setCvData: React.Dispatch<React.SetStateAction<CvDocument>>
     prompt: string;
     setPrompt: (value: string) => void;
     addedPrompt: string;
@@ -20,6 +25,8 @@ interface AiSectionProps {
 export function AiSection({
     fold,
     setFold,
+    cvData,
+    setCvData,
     keyGroq,
     setKeyGroq,
     prompt,
@@ -35,6 +42,12 @@ export function AiSection({
     onGenerate,
     onResetSkills,
 }: AiSectionProps) {
+    const experiences = filterIt(cvData.sectionOrder , 'experiences')
+    const competences = filterIt(cvData.sectionOrder , 'competences')
+    const softskills = filterIt(cvData.sectionOrder , 'softSkills')
+    const hardskills = filterIt(cvData.sectionOrder , 'hardSkills')
+    const educations = filterIt(cvData.sectionOrder , 'educations')
+
     return (
         <>
             <a href="https://buy.stripe.com/cNi14nbCOe359lH60C4ko06" target="_blank" rel="noreferrer">
@@ -108,6 +121,57 @@ export function AiSection({
                     <option value="en">English</option>
                 </select>
             </label>
+            {(competences?.object  && experiences?.object && hardskills?.object && softskills?.object && educations?.object) && (
+                <label className="impact">
+                    Colonne impactée
+
+                    <div className="impact_inputs">
+                        <div>
+                            <input
+                                type="checkbox"
+                                checked={!!cvData.sectionOrder[experiences.index].isImpacted}
+                                id="experiences"
+                                name="section"
+                                onChange={() => changeSectionOrderImapcted(setCvData, "experiences")}
+                            />
+                            <label htmlFor="experiences">Expériences</label>
+                        </div>
+
+                        <div>
+                            <input
+                                type="checkbox"
+                                checked={!!cvData.sectionOrder[competences.index].isImpacted}
+                                id="competences"
+                                name="section"
+                                onChange={() => changeSectionOrderImapcted(setCvData, "competences")}
+                            />
+                            <label htmlFor="competences">Compétences</label>
+                        </div>
+
+                        <div>
+                            <input
+                                type="checkbox"
+                                checked={!!cvData.sectionOrder[hardskills.index].isImpacted}
+                                id="hardSkills"
+                                name="section"
+                                onChange={() => changeSectionOrderImapcted(setCvData, "hardSkills")}
+                            />
+                            <label htmlFor="hardSkills">Hard Skills</label>
+                        </div>
+
+                        <div>
+                            <input
+                                type="checkbox"
+                                checked={!!cvData.sectionOrder[softskills.index].isImpacted}
+                                id="softSkills"
+                                name="section"
+                                onChange={() => changeSectionOrderImapcted(setCvData, "softSkills")}
+                            />
+                            <label htmlFor="softSkills">Soft Skills</label>
+                        </div>
+                    </div>
+                </label>
+            )}
 
             <button className="generate-button" type="button" onClick={onGenerate} disabled={isGenerating}>
                 {isGenerating ? 'Analyse en cours...' : 'Optimiser avec Groq'} <span>↗</span>

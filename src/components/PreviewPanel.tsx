@@ -4,6 +4,7 @@ import { exportPdf, loadPDF } from '../lib/pdf';
 import { type AiCvResponse, fetchAI } from '../lib/ai';
 import { useState } from 'react';
 import { checkIsArrayAndExist, updateClipboard } from '../lib/utils';
+import { getAllData } from '../lib/db';
 
 type cvLoadData = {
     text: string,
@@ -263,6 +264,22 @@ export function PreviewPanel({
                         </button>
                     </div>
                     <button
+                        className="export-button"
+                        type="button"
+                        onClick={(e) => {
+                                const cv = localStorage.getItem('folio-document')
+                                if (cv)
+                                    localStorage.setItem('defaultCV', cv);
+                                (e.target as HTMLButtonElement).innerText = "Sauvegardé !"
+                                setTimeout(() => {
+                                    (e.target as HTMLButtonElement).innerText = "Sauvegarder en tant que défaut 💾"
+                                }, 3000)
+                            }
+                        }
+                    >
+                        Sauvegarder en tant que défaut <span>💾</span>
+                    </button>
+                    <button
                         className="add-page-button"
                         type="button"
                         onClick={() => {
@@ -319,7 +336,7 @@ export function PreviewPanel({
             <section className="response-panel" aria-live="polite">
                 <div className="response-heading">
                     <span className="eyebrow">RÉPONSE DE L'IA</span>
-                    {aiResponse && !isGenerating && <span className="saved-label">GROQ</span>}
+                    <span className="saved-label">GROQ</span>
                 </div>
                 {isGenerating ? (
                     <div className="loading" role="status" aria-live="polite">
@@ -336,7 +353,16 @@ export function PreviewPanel({
                 <section className="response-panel" aria-live="polite">
                     <div className="response-heading">
                         <span className="eyebrow">RÉPONSE DE LA BASE DE DONNÉES (5 Derniers)</span>
-                        {dbResponse && <span className="saved-label">DB</span>}
+                        {dbResponse && <>
+                            <button className="btn" onClick={async (e) => {
+                                const allData = await getAllData(database);
+                                console.log(allData);
+                                (e.target as HTMLButtonElement).innerText = "Chargé !";
+                                setTimeout(() => {
+                                    (e.target as HTMLButtonElement).innerText = "Charger en console";  
+                                }, 3000)
+                            }}>Charger en console</button> <span className="saved-label">DB</span>
+                        </>}
                     </div>
                     {notReadyDataDB ? (
                         <div className="loading" role="status" aria-live="polite">
@@ -363,7 +389,7 @@ export function PreviewPanel({
                          Chargez votre CV ici
                     </label>
                     <input type="file" id="cvload" onChange={handleFile} style={{ display: 'none'}}/>
-                    <pre style={{ backgroundColor: 'white', color: 'black'}}>
+                    <pre style={{ width: "100%" }}>
                         {
                             typeof loadedCv !== "string" ? (
                                 loadedCv.length > 0 ? loadedCv.map((entry, index) => (

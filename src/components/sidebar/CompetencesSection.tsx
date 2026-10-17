@@ -32,12 +32,28 @@ export function CompetencesSection({
         setCvData((current) => ({
             ...current,
             competences: [...current.competences, { name: 'Nouvelle compétence', text: 'text' }],
+            sectionOrder: current.sectionOrder.map(obj =>
+                obj.title === "competences" ? (
+                    {
+                        ...obj,
+                        count: (obj.count ?? 0) + 1
+                    }
+                ): obj
+            ),
         }));
     
     const removeSkill = (index: number) =>
         setCvData((current) => ({
             ...current,
             competences: current.competences.filter((_, i) => i !== index),
+            sectionOrder: current.sectionOrder.map(obj =>
+                obj.title === "competences" ? (
+                    {
+                        ...obj,
+                        count: (obj.count ?? 0) - 1
+                    }
+                ): obj
+            ),
         }));
     
     return (

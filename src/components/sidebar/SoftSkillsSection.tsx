@@ -32,12 +32,28 @@ export function SoftSkillsSection({
         setCvData((current) => ({
             ...current,
             softSkills: [...current.softSkills, `softskill`],
+            sectionOrder: current.sectionOrder.map(obj =>
+                obj.title === "softSkills" ? (
+                    {
+                        ...obj,
+                        count: (obj.count ?? 0) + 1
+                    }
+                ): obj
+            ),
         }));
     
     const removeSkill = (index: number) =>
         setCvData((current) => ({
             ...current,
             softSkills: current.softSkills.filter((_, i) => i !== index),
+            sectionOrder: current.sectionOrder.map(obj =>
+                obj.title === "softSkills" ? (
+                    {
+                        ...obj,
+                        count: (obj.count ?? 0) - 1
+                    }
+                ): obj
+            ),
         }));
     
     return (

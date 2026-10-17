@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { cleanJobDescription } from '../lib/utils';
+import { cleanJobDescription, filterIt } from '../lib/utils';
 import { type AiCvResponse, fetchAI } from '../lib/ai';
 import type { CvDocument } from '../types/cv';
 
@@ -37,9 +37,28 @@ export function useAiGeneration() {
     }, [atsPrompt, TJM])
 
     const generate = async (cvData: CvDocument, setCvData: React.Dispatch<React.SetStateAction<CvDocument>>) => {
+    
         if (!prompt.trim()) {
             setOptimizationMessage('Veuillez entrer un poste ciblé');
             return;
+        }
+
+        const experiences = filterIt(cvData.sectionOrder , 'experiences')?.object
+        const competences = filterIt(cvData.sectionOrder , 'competences')?.object
+        const softskills = filterIt(cvData.sectionOrder , 'HoftSkills')?.object
+        const hardskills = filterIt(cvData.sectionOrder , 'HardSkills')?.object
+        const educations = filterIt(cvData.sectionOrder , 'educations')?.object
+
+        if (!experiences || !competences || !softskills || !hardskills || !educations) {
+            setOptimizationMessage('Une erreur est survenue supprimez le localStorage pour reprendre');
+            return;
+        }
+        
+        const counts = {
+            experiences: experiences.isImpacted ? experiences.count : undefined,
+            competences: competences.isImpacted ? competences.count : undefined,
+            softskills: softskills.isImpacted ? softskills.count : undefined,
+            hardskills: hardskills.isImpacted ? hardskills.count : undefined,
         }
 
         setIsGenerating(true);
@@ -56,13 +75,6 @@ export function useAiGeneration() {
 
             const translateEducation = cvLanguage === 'en';
             const { photo: _photo, design: _design, ...currentCv } = cvData;
-            
-            const counts = {
-                hardSkills: cvData.hardSkills.length,
-                softSkills: cvData.softSkills.length,
-                experiences: cvData.experiences.length,
-                competences: cvData.competences.length,
-            };
 
             const outputLanguage = translateEducation ? 'English' : 'French';
 
@@ -78,10 +90,10 @@ export function useAiGeneration() {
             The JSON object MUST contain exactly these six keys, in this exact order:
             
             "profile",
-            "experiences",
-            "competences",
-            "hardSkills",
-            "softSkills",
+            ${experiences.isImpacted && '"experiences,"'}
+            ${competences.isImpacted && '"competences,"'}
+            ${hardskills.isImpacted && '"hardSkills,"'}
+            ${softskills.isImpacted && '"softSkills,"'}
             "education"
             
             Do not add, remove, rename, or reorder any key.
@@ -102,71 +114,82 @@ export function useAiGeneration() {
                 TJM !== '' ? `Include the daily rate (TJM): ${TJM}.` : ''
             }
             
-            - experiences:
-            Array of objects:
-            {
-                "company": string,
-                "role": string,
-                "date": string,
-                "location": string,
-                "text": string
+            ${experiences.isImpacted && (`
+                - experiences:
+                Array of objects:
+                {
+                    "company": string,
+                    "role": string,
+                    "date": string,
+                    "location": string,
+                    "text": string
+                }
+                
+                Rules:
+                - Never delete any item.
+                - Never modify "company".
+                - "role" MUST follow this exact format:
+                  "<original role> / <adapted role>"
+                - The adapted role must fit the job offer and may differ for each experience.
+                - Completely rewrite "text" to maximize relevance for the target position.
+                - Produce a detailed, credible, and professional description.
+                - Explain actual responsibilities, technologies, achievements, impact, and results.
+                - Do NOT simply list keywords.
+                - Add a list of tools used at the end.
+                `)
             }
             
-            Rules:
-            - Never delete any item
-            - Never modify "company".
-            - "role" MUST follow this exact format:
-              "<original role> / <adapted role>"
-            - The adapted role must fit the job offer and may differ for each experience.
-            - Completely rewrite "text" to maximize relevance for the target position.
-            - Produce a detailed, credible, and professional description.
-            - Explain actual responsibilities, technologies, achievements, impact, and results.
-            - Do NOT simply list keywords.
-            - Add list of tool used at the end
+            ${competences.isImpacted && (`
+                - competences:
+                Array of objects:
+                {
+                    "name": string,
+                    "text": string
+                }
+                
+                Rules:
+                - Rewrite both "name" and "text".
+                - Optimize them for ATS keywords while remaining natural.
+            `)}
             
-            - competences:
-            Array of objects:
-            {
-                "name": string,
-                "text": string
-            }
+            ${hardskills.isImpacted && (`
+                - hardSkills:
+                Array of strings.
+                
+                Each string MUST follow this format:
+                
+                "Skill Category — tool1, tool2, tool3..."
+                
+                Each entry must contain:
+                - a skill category
+                - a short list of relevant tools or technologies.
+            `)}
             
-            Rules:
-            - Rewrite both "name" and "text".
-            - Optimize them for ATS keywords while remaining natural.
+            ${softskills.isImpacted && (`
+                - softSkills:
+                Array of strings.
+                
+                Rules:
+                - Only the skill name.
+                - No description.
+            `)}
             
-            - hardSkills:
-            Array of strings.
-            
-            Each string MUST follow this format:
-            
-            "Skill Category — tool1, tool2, tool3..."
-            
-            Each entry must contain:
-            - a skill category
-            - a short list of relevant tools or technologies.
-            
-            - softSkills:
-            Array of strings.
-            
-            Rules:
-            - Only the skill name.
-            - No description.
-            
-            - education:
-            Array of objects:
-            {
-                "title": string,
-                "date": string,
-                "location": string,
-                "text": string
-            }
-            
-            Rules:
-            - Never delete any education entry.
-            - Never modify title, date, or location.
-            - Only rewrite "text".
-            - Preserve and enhance the value of each school or training.
+            ${softskills.isImpacted && (`
+                - education:
+                Array of objects:
+                {
+                    "title": string,
+                    "date": string,
+                    "location": string,
+                    "text": string
+                }
+                
+                Rules:
+                - Never delete any education entry.
+                - Never modify title, date, or location.
+                - Only rewrite "text".
+                - Preserve and enhance the value of each school or training.
+            `)}
             
             General rule:
             Never remove existing information.
@@ -177,11 +200,11 @@ export function useAiGeneration() {
             ABSOLUTE RULE ABOUT ARRAY SIZES:
             
             For every array:
-            - experiences
-            - competences
-            - hardSkills
-            - softSkills
-            - education
+            ${experiences.isImpacted && "- experiences"}
+            ${competences.isImpacted && "- competences"}
+            ${hardskills.isImpacted && "- hardSkills"}
+            ${softskills.isImpacted && "- softSkills"}
+            ${educations.isImpacted && "- education"}
             
             Keep EXACTLY the same number of items.
             Keep EXACTLY the same order.
@@ -198,11 +221,11 @@ export function useAiGeneration() {
             - profile.job
             - profile.title
             - profile.about
-            - experiences
-            - competences
-            - hardSkills
-            - softSkills
-            - education
+            ${experiences.isImpacted && "- experiences"}
+            ${competences.isImpacted && "- competences"}
+            ${hardskills.isImpacted && "- hardSkills"}
+            ${softskills.isImpacted && "- softSkills"}
+            ${educations.isImpacted && "- education"}
             
             Do not include any other profile fields such as email, phone number, address, or similar.
             

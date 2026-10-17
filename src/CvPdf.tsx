@@ -83,8 +83,9 @@ function DraggableSection({
 // ---------------------------------------------------------------------------
 
 // Rendu des sections qui vont dans la colonne "aside" (sidebar).
-function renderAsideSection(section: SectionOrder, document: CvDocument): ReactNode {
+function renderAsideSection(document: CvDocument, section?: SectionOrder): ReactNode {
     const { profile, hardSkills, languages, softSkills, realizations, interests } = document;
+
     const contactItems: ContactItem[] = [
         profile.email && {
             icon: <Mail size={12} />,
@@ -116,88 +117,115 @@ function renderAsideSection(section: SectionOrder, document: CvDocument): ReactN
         },
     ].filter(Boolean) as ContactItem[];
 
-    switch (section.title) {
-        case 'about':
-            return section.isVisible && (
-                <section className="side-section">
-                    <h4>{section.name}</h4>
-                    {
-                    contactItems
-                    .map((item, index) => (
-                        <div className="about-items" key={index}>
-                            {item.icon}
-                            <span>{item.value}</span>
-                        </div>          
-                    ))}
+    if (section && section.title !== "newHeader")
+        switch (section.title) {
+            case 'about':
+                return section.isVisible && (
+                    <section className="side-section">
+                        <h4>{section.name}</h4>
+                        {
+                        contactItems
+                        .map((item, index) => (
+                            <div className="about-items" key={index}>
+                                {item.icon}
+                                <span>{item.value}</span>
+                            </div>          
+                        ))}
 
-                </section>
-            );
-        case 'languages':
-            return section.isVisible && (
-                <section className="side-section">
-                    <h4>{section.name}</h4>
-                    {languages.map((language, index) => (
-                        <p key={`${language.name}-${index}`}>
-                            <span suppressContentEditableWarning>{language.name}</span>{' '}
-                            <b suppressContentEditableWarning>{language.level}</b>
+                    </section>
+                );
+            case 'languages':
+                return section.isVisible && (
+                    <section className="side-section">
+                        <h4>{section.name}</h4>
+                        {languages.map((language, index) => (
+                            <p key={`${language.name}-${index}`}>
+                                <span suppressContentEditableWarning>{language.name}</span>{' '}
+                                <b suppressContentEditableWarning>{language.level}</b>
+                            </p>
+                        ))}
+                    </section>
+                );
+            case 'hardSkills':
+                return section.isVisible && (
+                    <section className="side-section sidebar-skills">
+                        <h4>{section.name}</h4>
+                        {hardSkills.map((skill, index) => (
+                            <p key={`${skill}-${index}`} suppressContentEditableWarning>
+                                {skill}
+                            </p>
+                        ))}
+                    </section>
+                );
+            case 'softSkills':
+                return section.isVisible && (
+                    <section className="side-section sidebar-skills">
+                        <h4>{section.name}</h4>
+                        {softSkills.map((skill, index) => (
+                            <p key={`${skill}-${index}`} suppressContentEditableWarning>
+                                {skill}
+                            </p>
+                        ))}
+                    </section>
+                );
+            case 'realizations':
+                return section.isVisible && (
+                    <section className="side-section realization-section">
+                        <h4>{section.name}</h4>
+                        {realizations.map((real, index) => (
+                            <p key={`${real.text}-${index}`} suppressContentEditableWarning>
+                                {real.text}
+                            </p>
+                        ))}
+                    </section>
+                );
+            case 'interests':
+                return section.isVisible && (
+                    <section className="side-section interests-section">
+                        <h4>{section.name}</h4>
+                        {interests.map((interest, index) => (
+                            <p key={`${interest.text}-${index}`} suppressContentEditableWarning>
+                                {interest.text}
+                            </p>
+                        ))}
+                    </section>
+                );
+            default:
+                return section.isVisible && (
+                    <section className={'side-section ' + section.title + '-section'}>
+                        <h4>{section.name}</h4>
+                        <p>
+                            {document[section.title]?.text ?? ''}
                         </p>
+                    </section>
+                );
+        }
+        else
+            return (
+                <>
+                    <div
+                        className="paper-photo"
+                        style={{ width: document.design.picSize + 'px', height: document.design.picSize + 'px' }}
+                    >
+                        {document.photo ? (
+                            <img src={document.photo} alt="Portrait du profil" />
+                        ) : (
+                            <span>{profile.initials}</span>
+                        )}
+                    </div>
+                    <h2 id="nameScale" suppressContentEditableWarning>
+                    {profile.name.split(' ').map((part, index) => (
+                        <span key={index}>
+                            {part}
+                            <br />
+                        </span>
                     ))}
-                </section>
+                    </h2>
+                    <h3 className="paper-title" suppressContentEditableWarning>
+                        {profile.title}
+                    </h3>
+                </>
             );
-        case 'hardSkills':
-            return section.isVisible && (
-                <section className="side-section sidebar-skills">
-                    <h4>{section.name}</h4>
-                    {hardSkills.map((skill, index) => (
-                        <p key={`${skill}-${index}`} suppressContentEditableWarning>
-                            {skill}
-                        </p>
-                    ))}
-                </section>
-            );
-        case 'softSkills':
-            return section.isVisible && (
-                <section className="side-section sidebar-skills">
-                    <h4>{section.name}</h4>
-                    {softSkills.map((skill, index) => (
-                        <p key={`${skill}-${index}`} suppressContentEditableWarning>
-                            {skill}
-                        </p>
-                    ))}
-                </section>
-            );
-        case 'realizations':
-            return section.isVisible && (
-                <section className="side-section realization-section">
-                    <h4>{section.name}</h4>
-                    {realizations.map((real, index) => (
-                        <p key={`${real.text}-${index}`} suppressContentEditableWarning>
-                            {real.text}
-                        </p>
-                    ))}
-                </section>
-            );
-        case 'interests':
-            return section.isVisible && (
-                <section className="side-section interests-section">
-                    <h4>{section.name}</h4>
-                    {interests.map((interest, index) => (
-                        <p key={`${interest.text}-${index}`} suppressContentEditableWarning>
-                            {interest.text}
-                        </p>
-                    ))}
-                </section>
-            );
-        default:
-            return section.isVisible && (
-                <section className={'side-section ' + section.title + '-section'}>
-                    <h4>{section.name}</h4>
-                    <p>
-                        {document[section.title]?.text ?? ''}
-                    </p>
-                </section>
-            );
-    }
 }
 
 // Rendu des sections qui vont dans la colonne principale (contenu).
@@ -308,7 +336,9 @@ type PagePlan = {
 function splitByAside(sectionOrder: SectionOrder[]) {
     const aside: SectionOrder[] = [];
     const main: SectionOrder[] = [];
-    sectionOrder.forEach((section) => (section.isAside ? aside : main).push(section));
+    sectionOrder.forEach((section) => {
+        if (section.isVisible) (section.isAside ? aside : main).push(section)
+    });
     return { aside, main };
 }
 
@@ -329,6 +359,8 @@ function buildPagePlan(
     const pages: PagePlan[] = [];
     let asideIndex = 0;
     let mainIndex = 0;
+
+    console.log("reserved ", reservedFirstPageMainHeight, reservedFirstPageAsideHeight)
 
     do {
         const isFirstPage = pages.length === 0;
@@ -351,12 +383,18 @@ function buildPagePlan(
         while (mainIndex < mainSections.length) {
             const section = mainSections[mainIndex];
             const height = heights[section.title] ?? 0;
+            console.log(mainHeightUsed + height, maxMainHeight)
             if (mainHeightUsed + height > maxMainHeight && page.main.length > 0) break;
             page.main.push(section);
             mainHeightUsed += height;
             mainIndex++;
         }
-
+        if (page.aside.length === 0 && page.main.length > 0)
+            page.aside = [
+                {name: 'newHeader', title: 'newHeader', isAside: true, isVisible: true, isImpacted: false},
+                ...pages[0].aside
+            ]
+        console.log(page)
         pages.push(page);
     } while (asideIndex < asideSections.length || mainIndex < mainSections.length);
 
@@ -403,41 +441,17 @@ function CvPage({
     atsPrompt: string;
     onSectionDrop: OnSectionDrop;
 }) {
-    const { profile, photo, design } = document;
+    const { profile, design } = document;
     const isFirstPage = pageIndex === 0;
     const paperStyle = buildPaperStyle(design);
 
     return (
         <section className={`cv-paper cv-template-${design.template} pdf-page`} style={paperStyle}>
             <aside className="cv-sidebar">
-                {isFirstPage && (
-                    <>
-                        <div
-                            className="paper-photo"
-                            style={{ width: design.picSize + 'px', height: design.picSize + 'px' }}
-                        >
-                            {photo ? (
-                                <img src={photo} alt="Portrait du profil" />
-                            ) : (
-                                <span>{profile.initials}</span>
-                            )}
-                        </div>
-                        <h2 id="nameScale" suppressContentEditableWarning>
-                        {profile.name.split(' ').map((part, index) => (
-                            <span key={index}>
-                                {part}
-                                <br />
-                            </span>
-                        ))}
-                        </h2>
-                        <h3 className="paper-title" suppressContentEditableWarning>
-                            {profile.title}
-                        </h3>
-                    </>
-                )}
+                {isFirstPage && renderAsideSection(document)}
                 {plan?.aside.map((section) => (
                     <DraggableSection key={section.title} id={section.title} onSectionDrop={onSectionDrop}>
-                        {renderAsideSection(section, document)}
+                        {renderAsideSection(document, section)}
                     </DraggableSection>
                 ))}
             </aside>
@@ -510,7 +524,7 @@ export function CvHtml({
         });
 
         const maxAsideHeight = 850;
-        const maxMainHeight = 870;
+        const maxMainHeight = 880;
         
         const plan = buildPagePlan(
             allAsideSections,
@@ -519,7 +533,7 @@ export function CvHtml({
             maxAsideHeight,
             maxMainHeight,
             heights['__header__'] ?? 0,
-            heights['__summary__'] ?? 0
+            heights['__summary__'] ?? 0,
         );
 
         setPagePlan(plan);
@@ -588,6 +602,7 @@ export function CvHtml({
                 sans jamais dépasser la hauteur d'une page.
             */}
             <div
+                id="invisible"
                 ref={measureRootRef}
                 aria-hidden
                 style={{ position: 'absolute', top: 0, left: -99999, visibility: 'hidden', pointerEvents: 'none' }}
@@ -598,25 +613,11 @@ export function CvHtml({
                 >
                     <aside className="cv-sidebar" style={{ height: 'auto', overflow: 'visible' }}>
                         <div data-measure-title="__header__">
-                            <div
-                                className="paper-photo"
-                                style={{
-                                    width: document.design.picSize + 'px',
-                                    height: document.design.picSize + 'px',
-                                }}
-                            >
-                                {document.photo ? (
-                                    <img src={document.photo} alt="photo de profile" />
-                                ) : (
-                                    <span>{document.profile.initials}</span>
-                                )}
-                            </div>
-                            <h2>{document.profile.name}</h2>
-                            <h3 className="paper-title">{document.profile.title}</h3>
+                            {renderAsideSection(document)}
                         </div>
                         {allAsideSections.map((section) => (
                             <div key={section.title} data-measure-title={section.title}>
-                                {renderAsideSection(section, document)}
+                                {renderAsideSection(document, section)}
                             </div>
                         ))}
                     </aside>

@@ -160,7 +160,7 @@ button {
     color: #e7e3db;
     font-size: 12px;
 }
-.language-choice {
+.language-choice, .impact {
     display: grid;
     gap: 7px;
     margin-top: 14px;
@@ -186,6 +186,10 @@ button {
 .language-choice select:focus {
     border-color: #df735b;
     box-shadow: 0 0 0 3px #df735b1c;
+}
+.impact_inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 .generate-button {
     width: 100%;
@@ -621,7 +625,8 @@ button {
 }
 .isVisible-button,
 .add-page-button,
-.export-button {
+.export-button,
+.btn {
     padding: 9px 12px;
     border: 1px solid #5a5b55;
     border-radius: 3px;
@@ -1286,8 +1291,6 @@ footer {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    border: 1px solid #353633;
-    background: #181918;
     color: #d6d5cd;
     font:
         11px 'DM Mono',

@@ -37,6 +37,7 @@ export const loadTemplates = (): CvTemplate[] => {
 
 export const loadCvDocument = (): CvDocument => {
     const saved = load<Partial<CvDocument>>('folio-document', {});
+    const defaultCV = JSON.parse(localStorage.getItem('defaultCV') ?? '');
 
     return mergeDefaults(defaultCvDocument, {
         ...saved,
@@ -47,21 +48,15 @@ export const loadCvDocument = (): CvDocument => {
                 ...load('folio-profile', {})
             }
         ),
-        photo: saved.photo ?? localStorage.getItem('folio-photo') ?? '',
-        hardSkills: saved.hardSkills ?? load('folio-hard-skills', defaultHardSkills),
-        softSkills: saved.softSkills ?? load('folio-soft-skills', defaultSoftSkills),
-        experiences: saved.experiences ?? load('folio-experiences', defaultExperiences),
-        realization: saved.realization ?? defaultRealization,
-        education: saved.education ?? load('folio-education', defaultEducation),
-        competences: saved.competences ?? load('folio-competences', defaultCompetences),
-        languages: saved.languages ?? load('folio-languages', defaultLanguages),
-        sectionOrder: saved.sectionOrder ?? defaultOrder,
-        design: mergeDefaults(
-            defaultDesign,
-            {
-                ...load('folio-design', {}),
-                ...saved.design
-            }
-        )
+        photo: saved.photo ?? defaultCV.photo ?? localStorage.getItem('folio-photo') ?? '',
+        hardSkills: saved.hardSkills ?? defaultCV.hardSkills ?? defaultHardSkills,
+        softSkills: saved.softSkills ?? defaultCV.softSkills ?? defaultSoftSkills,
+        experiences: saved.experiences ?? defaultCV.experiences ?? defaultExperiences,
+        realization: saved.realization ?? defaultCV.realization ?? defaultRealization,
+        education: saved.education ?? defaultCV.education ?? defaultEducation,
+        competences: saved.competences ?? defaultCV.competences ?? defaultCompetences,
+        languages: saved.languages ?? defaultCV.languages ?? defaultLanguages,
+        sectionOrder: saved.sectionOrder ?? defaultCV.sectionOrder ?? defaultOrder,
+        design: saved.design ?? defaultCV.design ?? defaultDesign
     });
 };

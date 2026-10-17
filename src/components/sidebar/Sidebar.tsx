@@ -93,6 +93,8 @@ export function Sidebar({
                 fold={fold}
                 setFold={setFold}
                 TJM={TJM}
+                cvData={cvData}
+                setCvData={setCvData}
                 setTJM={setTJM}
                 prompt={prompt}
                 keyGroq={keyGroq}
@@ -125,7 +127,7 @@ export function Sidebar({
                     onFieldChange={onProfileFieldChange}
                 />
 
-                <SkillsSection fold={fold} sharedSkillCount={sharedSkillCount} setCvData={setCvData} setSharedSkillCount={setSharedSkillCount} resizeAllSkills={resizeAllSkills} />
+                <SkillsSection fold={fold} cvData={cvData} sharedSkillCount={sharedSkillCount} setCvData={setCvData} setSharedSkillCount={setSharedSkillCount} resizeAllSkills={resizeAllSkills} />
 
                 <LanguagesSection
                     fold={fold}

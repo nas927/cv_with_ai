@@ -125,15 +125,15 @@ export const defaultTemplate: CvTemplate[] = [
     { id: 'compact', name: 'Compact', description: 'Dense pour les profils expérimentés', used: false, css: '' },
 ]
 export const defaultOrder = [
-    {name: 'A propos', title: 'about', isAside: true, isVisible: true},
-    {name: 'Langues', title: 'languages', isAside: true, isVisible: true}, 
-    {name: 'SoftSkills', title:'softSkills', isAside: true, isVisible: true}, 
-    {name: 'HardSkills', title:'hardSkills', isAside: true, isVisible: true}, 
-    {name: 'Réalisations', title:'realizations', isAside: true, isVisible: true}, 
-    {name: 'Centre d\'intérêts', title:'interests', isAside: true, isVisible: true}, 
-    {name: 'Formations', title:'educations', isAside: false, isVisible: true}, 
-    {name: 'Compétences', title:'competences', isAside: false, isVisible: true},
-    {name: 'Expériences', title:'experiences', isAside: false, isVisible: true}
+    {name: 'A propos', title: 'about', isAside: true, isVisible: true, isImpacted: false},
+    {name: 'Langues', title: 'languages', isAside: true, isVisible: true, isImpacted: false}, 
+    {name: 'SoftSkills', title:'softSkills', isAside: true, isVisible: true, isImpacted: true, count: 7}, 
+    {name: 'HardSkills', title:'hardSkills', isAside: true, isVisible: true, isImpacted: true, count: 8}, 
+    {name: 'Réalisations', title:'realizations', isAside: true, isVisible: true, isImpacted: false}, 
+    {name: 'Centre d\'intérêts', title:'interests', isAside: true, isVisible: true, isImpacted: false}, 
+    {name: 'Formations', title:'educations', isAside: false, isVisible: true, isImpacted: false, count: 3}, 
+    {name: 'Compétences', title:'competences', isAside: false, isVisible: true, isImpacted: true, count: 7},
+    {name: 'Expériences', title:'experiences', isAside: false, isVisible: true, isImpacted: true, count: 4}
 ]
 export const defaultEducation: Education[] = [
   {
