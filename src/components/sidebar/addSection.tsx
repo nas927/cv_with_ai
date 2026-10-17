@@ -51,7 +51,7 @@ export function AddSection({
         const id = "id_" + cvData.sectionOrder.length
         setCvData((current) => ({
             ...current,
-            sectionOrder: [ ...current.sectionOrder, {name: "titre", title: id, isAside: true, isVisible: true} ],
+            sectionOrder: [ ...current.sectionOrder, {name: "titre", title: id, isAside: true, isVisible: true, isImpacted: false} ],
             [id]: {titre: "Titre", date: "", location: "", text: "Description"}
         }));
     }
