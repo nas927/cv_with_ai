@@ -37,7 +37,7 @@ export const loadTemplates = (): CvTemplate[] => {
 
 export const loadCvDocument = (): CvDocument => {
     const saved = load<Partial<CvDocument>>('folio-document', {});
-    const defaultCV = JSON.parse(localStorage.getItem('defaultCV') ?? '');
+    const defaultCV = load<Partial<CvDocument>>('defaultCV',  {});
 
     return mergeDefaults(defaultCvDocument, {
         ...saved,
