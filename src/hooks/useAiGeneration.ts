@@ -129,7 +129,7 @@ export function useAiGeneration() {
                 - Never delete any item.
                 - Never modify "company".
                 - "role" MUST follow this exact format:
-                  "<original role> / <adapted role>"
+                  "<original role> / <adapted role>" if necessary
                 - The adapted role must fit the job offer and may differ for each experience.
                 - Completely rewrite "text" to maximize relevance for the target position.
                 - Produce a detailed, credible, and professional description.

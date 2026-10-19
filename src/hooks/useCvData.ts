@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { loadCvDocument } from '../lib/storage';
 import type { CvDocument, DesignSettings, Profile, CompetenceItem } from '../types/cv';
-import { initializeSkills, initializeCompetences } from '../lib/utils';
+import { initializeSkills, initializeCompetences, filterIt } from '../lib/utils';
 
 export function useCvData() {
     const [cvData, setCvData] = useState<CvDocument>(loadCvDocument);
@@ -55,6 +55,15 @@ export function useCvData() {
     };
 
     const resetSkills = () => {
+        const experiences = filterIt(cvData.sectionOrder , 'experiences')?.index
+        const competences = filterIt(cvData.sectionOrder , 'competences')?.index
+        const softskills = filterIt(cvData.sectionOrder , 'softSkills')?.index
+        const hardskills = filterIt(cvData.sectionOrder , 'hardSkills')?.index
+        const educations = filterIt(cvData.sectionOrder , 'educations')?.index
+
+        if (!experiences || !competences || !softskills || !hardskills || !educations)
+            return;
+
         setCvData((current) => ({
             ...current,
             profile: {
@@ -63,14 +72,14 @@ export function useCvData() {
                 title: '',
                 about: '',
             },
-            hardSkills: [],
-            softSkills: [],
-            competences: [],
-            experiences: current.experiences.map(exp => ({
+            hardSkills: current.sectionOrder[hardskills].isImpacted ? [] : current.hardSkills,
+            softSkills: current.sectionOrder[softskills].isImpacted ? [] : current.softSkills,
+            competences: current.sectionOrder[competences].isImpacted ? [] : current.competences,
+            experiences: current.sectionOrder[experiences].isImpacted ? current.experiences.map(exp => ({
                 ...exp,
                 role: exp.role?.split(' / ')[0] || '',
                 text: "",
-            }))
+            })): current.experiences
         }));
         resizeSpecificSkills();
     };
