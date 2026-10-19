@@ -267,7 +267,7 @@ export function useAiGeneration() {
             
             Additional instructions (highest priority):
             
-            ${addedPrompt || 'None'}
+            ${addedPrompt || ''}
             
             Return ONLY the final JSON object.
             Nothing else.
