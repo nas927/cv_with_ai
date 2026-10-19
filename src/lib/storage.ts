@@ -41,13 +41,7 @@ export const loadCvDocument = (): CvDocument => {
 
     return mergeDefaults(defaultCvDocument, {
         ...saved,
-        profile: mergeDefaults(
-            defaultProfile,
-            {
-                ...saved.profile,
-                ...load('folio-profile', {})
-            }
-        ),
+        profile: saved.profile ?? defaultCV.profile ?? defaultProfile,
         photo: saved.photo ?? defaultCV.photo ?? localStorage.getItem('folio-photo') ?? '',
         hardSkills: saved.hardSkills ?? defaultCV.hardSkills ?? defaultHardSkills,
         softSkills: saved.softSkills ?? defaultCV.softSkills ?? defaultSoftSkills,

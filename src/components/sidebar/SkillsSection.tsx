@@ -54,7 +54,7 @@ export function SkillsSection({ fold, cvData, sharedSkillCount, setSharedSkillCo
                                     index === competences.index || index === softskills.index || index === hardskills.index
                                         ? {
                                               ...section,
-                                              count: sharedSkillCount,
+                                              count: newCount,
                                           }
                                         : section
                                 ),
