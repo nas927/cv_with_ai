@@ -50,7 +50,7 @@ export function useAiGeneration() {
         const educations = filterIt(cvData.sectionOrder , 'educations')?.object
 
         if (!experiences || !competences || !softskills || !hardskills || !educations) {
-            setOptimizationMessage('Une erreur est survenue supprimez le localStorage pour reprendre');
+            setOptimizationMessage('Une erreur est survenue supprimez folio-document du localStorage pour reprendre');
             return;
         }
         
@@ -90,11 +90,11 @@ export function useAiGeneration() {
             The JSON object MUST contain exactly these six keys, in this exact order:
             
             "profile",
-            ${experiences.isImpacted && '"experiences,"'}
-            ${competences.isImpacted && '"competences,"'}
-            ${hardskills.isImpacted && '"hardSkills,"'}
-            ${softskills.isImpacted && '"softSkills,"'}
-            "education"
+            ${experiences.isImpacted ? '"experiences,"':""}
+            ${competences.isImpacted ? '"competences,"':""}
+            ${hardskills.isImpacted ? '"hardSkills,"':""}
+            ${softskills.isImpacted ? '"softSkills,"':""}
+            ${educations.isImpacted ? '"educations,"':""}
             
             Do not add, remove, rename, or reorder any key.
             
@@ -114,7 +114,7 @@ export function useAiGeneration() {
                 TJM !== '' ? `Include the daily rate (TJM): ${TJM}.` : ''
             }
             
-            ${experiences.isImpacted && (`
+            ${experiences.isImpacted ? (`
                 - experiences:
                 Array of objects:
                 {
@@ -136,10 +136,10 @@ export function useAiGeneration() {
                 - Explain actual responsibilities, technologies, achievements, impact, and results.
                 - Do NOT simply list keywords.
                 - Add a list of tools used at the end.
-                `)
+                `):""
             }
             
-            ${competences.isImpacted && (`
+            ${competences.isImpacted ? (`
                 - competences:
                 Array of objects:
                 {
@@ -150,9 +150,9 @@ export function useAiGeneration() {
                 Rules:
                 - Rewrite both "name" and "text".
                 - Optimize them for ATS keywords while remaining natural.
-            `)}
+            `):""}
             
-            ${hardskills.isImpacted && (`
+            ${hardskills.isImpacted ? (`
                 - hardSkills:
                 Array of strings.
                 
@@ -163,19 +163,19 @@ export function useAiGeneration() {
                 Each entry must contain:
                 - a skill category
                 - a short list of relevant tools or technologies.
-            `)}
+            `):""}
             
-            ${softskills.isImpacted && (`
+            ${softskills.isImpacted ? (`
                 - softSkills:
                 Array of strings.
                 
                 Rules:
                 - Only the skill name.
                 - No description.
-            `)}
+            `):""}
             
-            ${softskills.isImpacted && (`
-                - education:
+            ${educations.isImpacted ? (`
+                - educations:
                 Array of objects:
                 {
                     "title": string,
@@ -189,7 +189,7 @@ export function useAiGeneration() {
                 - Never modify title, date, or location.
                 - Only rewrite "text".
                 - Preserve and enhance the value of each school or training.
-            `)}
+            `):""}
             
             General rule:
             Never remove existing information.
@@ -200,11 +200,11 @@ export function useAiGeneration() {
             ABSOLUTE RULE ABOUT ARRAY SIZES:
             
             For every array:
-            ${experiences.isImpacted && "- experiences"}
-            ${competences.isImpacted && "- competences"}
-            ${hardskills.isImpacted && "- hardSkills"}
-            ${softskills.isImpacted && "- softSkills"}
-            ${educations.isImpacted && "- education"}
+            ${experiences.isImpacted ? "- experiences":""}
+            ${competences.isImpacted ? "- competences":""}
+            ${hardskills.isImpacted ? "- hardSkills":""}
+            ${softskills.isImpacted ? "- softSkills":""}
+            ${educations.isImpacted ? "- educations":""}
             
             Keep EXACTLY the same number of items.
             Keep EXACTLY the same order.
@@ -221,11 +221,11 @@ export function useAiGeneration() {
             - profile.job
             - profile.title
             - profile.about
-            ${experiences.isImpacted && "- experiences"}
-            ${competences.isImpacted && "- competences"}
-            ${hardskills.isImpacted && "- hardSkills"}
-            ${softskills.isImpacted && "- softSkills"}
-            ${educations.isImpacted && "- education"}
+            ${experiences.isImpacted ? "- experiences":""}
+            ${competences.isImpacted ? "- competences":""}
+            ${hardskills.isImpacted ? "- hardSkills":""}
+            ${softskills.isImpacted ? "- softSkills":""}
+            ${educations.isImpacted ? "- education":""}
             
             Do not include any other profile fields such as email, phone number, address, or similar.
             
@@ -272,6 +272,8 @@ export function useAiGeneration() {
             Return ONLY the final JSON object.
             Nothing else.
             `;
+
+            console.log(userPrompt)
 
             const content = await fetchAI(userPrompt, keyGroq, false);
             if (!content.success) {

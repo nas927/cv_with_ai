@@ -169,6 +169,17 @@ export function AiSection({
                             />
                             <label htmlFor="softSkills">Soft Skills</label>
                         </div>
+
+                        <div>
+                            <input
+                                type="checkbox"
+                                checked={!!cvData.sectionOrder[educations.index].isImpacted}
+                                id="educations"
+                                name="section"
+                                onChange={() => changeSectionOrderImapcted(setCvData, "educations")}
+                            />
+                            <label htmlFor="educations">Formations</label>
+                        </div>
                     </div>
                 </label>
             )}
