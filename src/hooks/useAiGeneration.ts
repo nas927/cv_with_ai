@@ -45,8 +45,8 @@ export function useAiGeneration() {
 
         const experiences = filterIt(cvData.sectionOrder , 'experiences')?.object
         const competences = filterIt(cvData.sectionOrder , 'competences')?.object
-        const softskills = filterIt(cvData.sectionOrder , 'HoftSkills')?.object
-        const hardskills = filterIt(cvData.sectionOrder , 'HardSkills')?.object
+        const softskills = filterIt(cvData.sectionOrder , 'softSkills')?.object
+        const hardskills = filterIt(cvData.sectionOrder , 'hardSkills')?.object
         const educations = filterIt(cvData.sectionOrder , 'educations')?.object
 
         if (!experiences || !competences || !softskills || !hardskills || !educations) {
